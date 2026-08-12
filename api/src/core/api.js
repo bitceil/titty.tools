@@ -267,8 +267,9 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
         // instead of a cryptic fetch error. the web app normally expands
         // playlists before this point, this is just the safety net.
         try {
-            if (isPlaylistUrl(parsed.url.toString())) {
-                const { title, entries, error } = await getPlaylistEntries(parsed.url.toString());
+            const playlistUrl = parsed.url.toString();
+            if (isPlaylistUrl(playlistUrl)) {
+                const { title, entries, error } = await getPlaylistEntries(playlistUrl);
                 if (error) {
                     return fail(res, `error.api.${error.error}`);
                 }
