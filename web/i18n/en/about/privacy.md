@@ -57,10 +57,16 @@ media data from tunnels is never stored/cached anywhere.
 everything is processed live, even during remuxing and transcoding.
 titty.tools tunnels function like an anonymous proxy.
 
+to be clear about how saving works: media files are never written to the server's disk at all.
+extraction only fetches metadata and direct media links from the source,
+and the files then stream straight from the source to your device, like a proxy.
+the only files ever created on the server are per-request cookie files,
+and they are deleted immediately after extraction, even if the download fails.
+
 if your device supports local processing,
 then encrypted tunnel info includes way less info, because it's returned to client instead.
 
-see the [related source code on github](https://github.com/imputnet/cobalt/tree/main/api/src/stream)
+see the [related source code on github](https://github.com/bitceil/titty.tools/tree/main/api/src/stream)
 to learn more about how it works.
 </section>
 

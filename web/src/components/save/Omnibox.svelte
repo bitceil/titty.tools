@@ -47,8 +47,17 @@
 
     let isBotCheckOngoing = $derived($turnstileEnabled && !$turnstileSolved);
 
+    // prefill from the path form (e.g. titty.tools/https://example.com/video),
+    // keeping any query string or hash as part of the target url
+    let pathnamePrefill = $derived(
+        page.url.pathname !== "/"
+            ? page.url.pathname.slice(1) + page.url.search + page.url.hash
+            : ""
+    );
+
     let linkPrefill = $derived(
-        page.url.hash.replace("#", "")
+        pathnamePrefill
+        || page.url.hash.replace("#", "")
         || (browser ? page.url.searchParams.get("u") : "")
         || ""
     );
@@ -60,6 +69,16 @@
         if (linkPrefill) {
             // prefilled link may be uri encoded
             linkPrefill = decodeURIComponent(linkPrefill);
+
+            // allow scheme-less urls like /youtu.be/abc
+            if (!validLink(linkPrefill)) {
+                try {
+                    const withScheme = new URL("https://" + linkPrefill);
+                    if (withScheme.hostname.includes(".")) {
+                        linkPrefill = withScheme.toString();
+                    }
+                } catch {}
+            }
 
             if (validLink(linkPrefill)) {
                 $link = linkPrefill;

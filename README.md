@@ -36,6 +36,12 @@ titty.tools is a tool that makes downloading public content easier. it takes **z
 the end user is responsible for what they download, how they use and distribute that content.
 titty.tools never caches any content, it [works like a fancy proxy](/api/src/stream/).
 
+the backend uses yt-dlp for extraction, and it never downloads the media to the server.
+extraction only fetches metadata and direct media links, then the files stream straight
+from the source to your device, like a proxy. nothing is cached or written to disk.
+the only temporary files are per-request cookie files, which are deleted immediately
+after extraction.
+
 titty.tools is in no way a piracy tool and cannot be used as such.
 it can only download free & publicly accessible content.
 same content can be downloaded via dev tools of any modern web browser.
