@@ -185,6 +185,7 @@ export const confirmPlaylistDownload = (entries: CobaltPlaylistEntry[]) => {
         type: "small",
         mascot: "question",
         leftAligned: true,
+        title: get(t)("save.playlist.title"),
         bodyText: get(t)("save.playlist.confirm").replace("{count}", String(urls.length)),
         buttons: [
             {
@@ -195,10 +196,16 @@ export const confirmPlaylistDownload = (entries: CobaltPlaylistEntry[]) => {
             {
                 text: get(t)("save.playlist.download"),
                 main: true,
-                action: async () => {
-                    for (const videoUrl of urls) {
-                        await savingHandler({ url: videoUrl });
-                    }
+                // run in the background so the dialog closes right away,
+                // the queue then fills up as each video is processed
+                action: () => {
+                    (async () => {
+                        for (const videoUrl of urls) {
+                            try {
+                                await savingHandler({ url: videoUrl });
+                            } catch {}
+                        }
+                    })();
                 },
             },
         ],
