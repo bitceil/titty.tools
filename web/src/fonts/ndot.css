@@ -3,7 +3,7 @@
     font-style: normal;
     font-display: swap;
     font-weight: 400;
-    src: url(/fonts/ndot55.woff2) format("woff2");
+    src: url(/fonts/ndot55-v2.woff2) format("woff2");
 }
 
 @font-face {
@@ -11,5 +11,5 @@
     font-style: normal;
     font-display: swap;
     font-weight: 400;
-    src: url(/fonts/ndot57.woff2) format("woff2");
+    src: url(/fonts/ndot57-v2.woff2) format("woff2");
 }
