@@ -67,6 +67,9 @@
                 {/each}
             {/if}
         </div>
+        <div id="services-ytdlp" class="subtext">
+            {$t("save.services.ytdlp")}
+        </div>
         <div id="services-disclaimer" class="subtext">
             {$t("save.services.disclaimer")}
         </div>
@@ -170,6 +173,11 @@
         border-radius: calc(var(--border-radius) / 2);
         background: var(--button-elevated);
         font-size: 12.5px;
+        font-weight: 500;
+    }
+
+    #services-ytdlp {
+        padding: 12px 0 0;
         font-weight: 500;
     }
 
