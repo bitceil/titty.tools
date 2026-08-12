@@ -6,12 +6,12 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import dialogs, { createDialog } from "$lib/state/dialogs";
+    import dialogs from "$lib/state/dialogs";
     import { link, downloadButtonState } from "$lib/state/omnibox";
     import { hapticSwitch } from "$lib/haptics";
     import { updateSetting } from "$lib/state/settings";
-    import { savingHandler } from "$lib/api/saving-handler";
-    import { isPlaylistUrl, getPlaylistEntries, entryUrl } from "$lib/api/playlist";
+    import { savingHandler, confirmPlaylistDownload } from "$lib/api/saving-handler";
+    import { isPlaylistUrl, getPlaylistEntries } from "$lib/api/playlist";
     import { pasteLinkFromClipboard } from "$lib/clipboard";
     import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
@@ -114,49 +114,9 @@
         isDisabled = false;
         isLoading = false;
 
-        const urls = (data?.entries || [])
-            .map(entryUrl)
-            .filter((u): u is string => !!u);
-
-        if (!urls.length) {
-            return createDialog({
-                id: "playlist-error",
-                type: "small",
-                mascot: "error",
-                buttons: [
-                    {
-                        text: $t("button.gotit"),
-                        main: true,
-                        action: () => {},
-                    },
-                ],
-                bodyText: $t("save.playlist.error"),
-            });
+        if (data?.status === "ok") {
+            confirmPlaylistDownload(data.entries);
         }
-
-        createDialog({
-            id: "playlist-confirm",
-            type: "small",
-            mascot: "question",
-            leftAligned: true,
-            bodyText: $t("save.playlist.confirm").replace("{count}", String(urls.length)),
-            buttons: [
-                {
-                    text: $t("button.cancel"),
-                    main: false,
-                    action: () => {},
-                },
-                {
-                    text: $t("save.playlist.download"),
-                    main: true,
-                    action: async () => {
-                        for (const videoUrl of urls) {
-                            await savingHandler({ url: videoUrl });
-                        }
-                    },
-                },
-            ],
-        });
     };
 
     const pasteClipboard = async () => {

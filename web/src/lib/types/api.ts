@@ -122,7 +122,8 @@ export type CobaltAPIResponse = CobaltErrorResponse
                               | CobaltPickerResponse
                               | CobaltRedirectResponse
                               | CobaltTunnelResponse
-                              | CobaltLocalProcessingResponse;
+                              | CobaltLocalProcessingResponse
+                              | CobaltPlaylistResponse;
 
 export type CobaltPlaylistEntry = {
     url: string,
@@ -132,7 +133,7 @@ export type CobaltPlaylistEntry = {
 }
 
 export type CobaltPlaylistResponse = {
-    status: "ok",
+    status: "ok" | "playlist",
     title?: string,
     entries: CobaltPlaylistEntry[],
 }

@@ -9,8 +9,9 @@ import { downloadFile } from "$lib/download";
 import { createDialog } from "$lib/state/dialogs";
 import { downloadButtonState } from "$lib/state/omnibox";
 import { createSavePipeline } from "$lib/task-manager/queue";
+import { entryUrl } from "$lib/api/playlist";
 
-import type { CobaltSaveRequestBody } from "$lib/types/api";
+import type { CobaltPlaylistEntry, CobaltSaveRequestBody } from "$lib/types/api";
 
 type SavingHandlerArgs = {
     url?: string,
@@ -74,6 +75,11 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
     if (!response) {
         downloadButtonState.set("error");
         return error(get(t)("error.api.unreachable"));
+    }
+
+    if (response.status === "playlist") {
+        downloadButtonState.set("done");
+        return confirmPlaylistDownload(response.entries);
     }
 
     if (response.status === "error") {
@@ -148,4 +154,53 @@ export const savingHandler = async ({ url, request, oldTaskId }: SavingHandlerAr
 
     downloadButtonState.set("error");
     return error(get(t)("error.api.unknown_response"));
+}
+
+// shared by the omnibox playlist flow and the api "playlist" status:
+// asks the user whether they want to download every video in the playlist,
+// then queues them one at a time
+export const confirmPlaylistDownload = (entries: CobaltPlaylistEntry[]) => {
+    const urls = (entries || [])
+        .map(entryUrl)
+        .filter((u): u is string => !!u);
+
+    if (!urls.length) {
+        return createDialog({
+            id: "playlist-error",
+            type: "small",
+            mascot: "error",
+            buttons: [
+                {
+                    text: get(t)("button.gotit"),
+                    main: true,
+                    action: () => {},
+                },
+            ],
+            bodyText: get(t)("save.playlist.error"),
+        });
+    }
+
+    return createDialog({
+        id: "playlist-confirm",
+        type: "small",
+        mascot: "question",
+        leftAligned: true,
+        bodyText: get(t)("save.playlist.confirm").replace("{count}", String(urls.length)),
+        buttons: [
+            {
+                text: get(t)("button.cancel"),
+                main: false,
+                action: () => {},
+            },
+            {
+                text: get(t)("save.playlist.download"),
+                main: true,
+                action: async () => {
+                    for (const videoUrl of urls) {
+                        await savingHandler({ url: videoUrl });
+                    }
+                },
+            },
+        ],
+    });
 }

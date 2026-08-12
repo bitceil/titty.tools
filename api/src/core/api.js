@@ -262,6 +262,23 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             return fail(res, `error.api.${parsed.error}`, context);
         }
 
+        // a playlist url can't be extracted as a single video, so expand it
+        // here: any client that posts a playlist url gets a useful response
+        // instead of a cryptic fetch error. the web app normally expands
+        // playlists before this point, this is just the safety net.
+        try {
+            if (isPlaylistUrl(parsed.url.toString())) {
+                const { title, entries, error } = await getPlaylistEntries(parsed.url.toString());
+                if (error) {
+                    return fail(res, `error.api.${error.error}`);
+                }
+                res.type('json');
+                return res.status(200).send({ status: "playlist", title, entries });
+            }
+        } catch {
+            // fall through to the normal extraction path
+        }
+
         try {
             const result = await match({
                 host: parsed.host,
