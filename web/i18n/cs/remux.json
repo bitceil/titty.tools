@@ -1,0 +1,8 @@
+{
+    "bullet.purpose.title": "co remux dělá?",
+    "bullet.purpose.description": "remux opravuje problémy s kontejnerem souboru, jako je chybějící informace o čase. pomáhá zvýšit kompatibilitu se starým softwarem, jako jsou vegas pro a windows media player.",
+    "bullet.explainer.title": "jak to funguje?",
+    "bullet.explainer.description": "remuxování vezme stávající data kodeku a zkopíruje je do nového mediálního kontejneru. je bezeztrátové; mediální data se nepřekódují.",
+    "bullet.privacy.title": "zpracování na zařízení",
+    "bullet.privacy.description": "titty.tools remuxuje soubory lokálně. soubory nikdy neopustí tvé zařízení, takže zpracování je téměř okamžité."
+}

@@ -1,0 +1,37 @@
+{
+    "banner.title": "Podpoř bezpečný\na otevřený internet",
+    "banner.subtitle": "přispěj imputovi nebo sdílej\nradost z cobalt s přítelem",
+
+    "body.motivation": "cobalt pomáhá tvůrcům, pedagogům, tvůrcům videí a mnoha dalším dělat to, co milují. je to jiný druh služby, která je vytvořena s láskou, ne pro zisk.",
+    "body.no_bullshit": "věříme, že internet nemusí být děsivý, proto cobalt nikdy nebude mít reklamy ani jiný škodlivý obsah. je to slib, za kterým si pevně stojíme. vše, co děláme, je postaveno s ohledem na soukromí, přístupnost a snadné použití, díky čemuž je cobalt dostupný pro každého.",
+    "body.keep_going": "pokud ti cobalt přišel užitečný, zvaž prosím podporu naší práce! můžeš nám pomoci darováním nebo sdílením cobalt s přítelem. každý dar je velmi ceněný a pomáhá nám pokračovat v práci na cobalt a dalších projektech.",
+
+    "card.once": "jednorázový dar",
+    "card.recurring": "opakovaný dar",
+    "card.custom": "vlastní částka (od $2)",
+
+    "card.processor": "přes {{value}}",
+
+    "card.option.5": "šálek kávy",
+    "card.option.10": "pizza v plné velikosti",
+    "card.option.15": "plný oběd",
+    "card.option.30": "oběd pro dva",
+    "card.option.50": "10 kg krmiva pro kočky",
+    "card.option.100": "jeden rok domén",
+    "card.option.200": "horkovzdušná fritéza",
+    "card.option.500": "luxusní kancelářská židle",
+    "card.option.1599": "základní macbook pro",
+    "card.option.4900": "10 000 jablek",
+    "card.option.7398": "plně vybavený macbook pro",
+    "card.option.8629": "malý pozemek",
+    "card.option.9433": "luxusní vířivka",
+
+    "card.custom.submit": "přispět vlastní částkou",
+
+    "share.title": "sdílej cobalt s přítelem",
+
+    "alternative.title": "alternativní způsoby darování",
+
+    "alt.copy": "{{ value }}. adresa krypto peněženky. stiskni pro kopírování.",
+    "alt.open": "{{ value }}. stiskni pro otevření."
+}

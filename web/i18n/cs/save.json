@@ -1,0 +1,26 @@
+{
+    "paste": "vložit",
+    "paste.long": "vložit a stáhnout",
+    "auto": "auto",
+    "audio": "audio",
+    "mute": "bez zvuku",
+    "input.placeholder": "vlož sem odkaz",
+    "terms.note.agreement": "pokračováním souhlasíš s",
+    "terms.note.link": "podmínkami a etikou použití",
+    "services.title": "podporované služby",
+    "services.title_show": "zobrazit podporované služby",
+    "services.title_hide": "skrýt podporované služby",
+    "services.disclaimer": "podpora služby neznamená přidružení, schválení ani žádnou jinou formu podpory než technickou kompatibilitu.",
+    "services.ytdlp": "titty.tools podporuje všechny výše uvedené služby a také tisíce dalších webů, díky backendu yt-dlp.",
+
+    "tutorial.title": "jak uložit na ios?",
+    "tutorial.intro": "pro pohodlné ukládání na ios budeš potřebovat doprovodnou zkratku siri z nabídky sdílení.",
+    "tutorial.step.1": "přidej doprovodné zkratky siri:",
+    "tutorial.step.2": "stiskni tlačítko \"sdílet\" v dialogu ukládání titty.tools.",
+    "tutorial.step.3": "vyber příslušnou zkratku v nabídce sdílení.",
+    "tutorial.outro": "tyto zkratky budou fungovat pouze z aplikace titty.tools, sdílení odkazů z jiných aplikací nebude fungovat.",
+    "tutorial.shortcut.photos": "do fotek",
+    "tutorial.shortcut.files": "do souborů",
+
+    "tooltip.captcha": "cloudflare turnstile kontroluje, zda nejsi bot, počkej prosím!"
+}

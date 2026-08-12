@@ -1,0 +1,5 @@
+{
+    "status.default": "fronta zpracování",
+    "status.completed": "fronta zpracování. všechny úkoly jsou dokončeny.",
+    "status.ongoing": "fronta zpracování. probíhají úkoly."
+}

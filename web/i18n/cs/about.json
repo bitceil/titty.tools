@@ -1,0 +1,32 @@
+{
+    "page.general": "co je titty.tools?",
+
+    "page.community": "komunita a podpora",
+
+    "page.privacy": "zásady ochrany soukromí",
+    "page.terms": "podmínky a etika",
+    "page.credits": "poděkování a licence",
+
+    "heading.general": "obecné podmínky",
+    "heading.licenses": "licence",
+    "heading.summary": "nejlepší způsob, jak uložit, co miluješ",
+    "heading.privacy_efficiency": "vedoucí soukromí a efektivita",
+    "heading.community": "otevřená komunita",
+    "heading.local": "lokální zpracování",
+    "heading.saving": "ukládání",
+    "heading.encryption": "šifrování",
+    "heading.plausible": "anonymní analýza návštěvnosti",
+    "heading.cloudflare": "webové soukromí a bezpečnost",
+    "heading.responsibility": "odpovědnost uživatelů",
+    "heading.abuse": "hlášení zneužití",
+    "heading.motivation": "motivace",
+    "heading.testers": "beta testeři",
+    "heading.partners": "partneři",
+
+    "support.title.original": "původní repozitář",
+    "support.title.fork": "tento fork",
+    "support.github": "titty.tools je založen na cobalt: podívej se na původní open source projekt",
+    "support.fork": "všechny změny titty.tools žijí tady, na původním zdrojovém kódu cobalt",
+
+    "support.description.best-effort": "veškerá podpora je nejlepší snaha a není zaručená, odpověď může chvíli trvat."
+}

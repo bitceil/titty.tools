@@ -1,0 +1,22 @@
+{
+    "reset_settings.title": "obnovit všechna nastavení?",
+    "reset_settings.body": "opravdu chceš obnovit všechna nastavení? tato akce je okamžitá a nevratná.",
+
+    "picker.title": "vyber, co chceš uložit",
+    "picker.description.desktop": "klikni na položku pro uložení. obrázky lze uložit i přes kontextové menu.",
+    "picker.description.phone": "stiskni položku pro uložení. obrázky lze uložit i dlouhým stiskem.",
+    "picker.description.ios": "stiskni položku pro uložení přes zástupce. obrázky lze uložit i dlouhým stiskem.",
+
+    "saving.title": "vyber, jak chceš uložit",
+    "saving.blocked": "titty.tools se pokusil otevřít soubor v nové kartě, ale tvůj prohlížeč to zablokoval. můžeš povolit vyskakovací okna pro titty.tools, aby se to příště nestalo.",
+    "saving.timeout": "titty.tools se pokusil uložit soubor automaticky, ale tvůj prohlížeč to zastavil. musíš ručně vybrat preferovanou metodu.",
+
+    "safety.title": "důležité bezpečnostní upozornění",
+
+    "import.body": "import neznámých nebo poškozených souborů může neočekávaně změnit nebo rozbít funkce titty.tools. importuj pouze soubory, které jsi sám exportoval a neupravoval. pokud tě někdo požádal o import tohoto souboru, nedělej to.\n\nneodpovídáme za žádné škody způsobené importem neznámých souborů nastavení.",
+
+    "safety.custom_instance.body": "vlastní instance mohou představovat rizika pro soukromí a bezpečnost.\n\nšpatné instance mohou:\n1. přesměrovat tě pryč z titty.tools a pokusit se tě podvést.\n2. logovat všechny informace o tvých požadavcích, uchovávat je navždy a používat je ke sledování.\n3. doručit ti škodlivé soubory (např. malware).\n4. nutit tě sledovat reklamy nebo platit za stahování.\n\nod tohoto bodu tě nemůžeme chránit. prosím, buď opatrný při výběru instancí a vždy věř své intuici. pokud něco vypadá podezřele, vrať se na tuto stránku a obnov vlastní instanci.",
+
+    "clear_cache.title": "vymazat celou mezipaměť?",
+    "clear_cache.body": "všechny soubory z fronty zpracování budou odebrány a lokální funkce se budou načítat déle. tato akce je okamžitá a nevratná."
+}

@@ -1,0 +1,63 @@
+{
+    "auth.jwt.missing": "nepodařilo se ověřit s instancí zpracování, protože chybí přístupový token. zkus to znovu za pár sekund nebo obnov stránku!",
+    "auth.jwt.invalid": "nepodařilo se ověřit s instancí zpracování, protože přístupový token je neplatný. zkus to znovu za pár sekund nebo obnov stránku!",
+    "auth.turnstile.missing": "nepodařilo se ověřit s instancí zpracování, protože chybí řešení captcha. zkus to znovu za pár sekund nebo obnov stránku!",
+    "auth.turnstile.invalid": "nepodařilo se ověřit s instancí zpracování, protože řešení captcha je neplatné. zkus to znovu za pár sekund nebo obnov stránku!",
+
+    "auth.key.missing": "pro použití této instance zpracování je vyžadován přístupový klíč, ale chybí. přidej ho v nastavení instance!",
+    "auth.key.not_api_key": "pro použití této instance zpracování je vyžadován přístupový klíč, ale chybí. přidej ho v nastavení instance!",
+
+    "auth.key.invalid": "přístupový klíč je neplatný. obnov ho v nastavení instance a použij správný!",
+    "auth.key.not_found": "použitý přístupový klíč nebyl nalezen. jsi si jistý, že tato instance má tvůj klíč?",
+    "auth.key.invalid_ip": "tvoji ip adresu se nepodařilo zpracovat. něco se vážně pokazilo. zkus to znovu za pár sekund!",
+    "auth.key.ip_not_allowed": "tvoje ip adresa nemá povoleno používat tento přístupový klíč. použij jinou instanci nebo síť!",
+    "auth.key.ua_not_allowed": "tvůj user agent nemá povoleno používat tento přístupový klíč. použij jiného klienta nebo zařízení!",
+
+    "unreachable": "nepodařilo se připojit k instanci zpracování. zkontroluj připojení k internetu a zkus to znovu!",
+    "timed_out": "instance zpracování odpovídala příliš dlouho. může být momentálně přetížená, zkus to znovu za pár sekund!",
+    "rate_exceeded": "posíláš příliš mnoho požadavků. zkus to znovu za {{ limit }} sekund.",
+    "capacity": "titty.tools je na hranici kapacity a momentálně nemůže zpracovat tvůj požadavek. zkus to znovu za pár sekund!",
+
+    "generic": "něco se pokazilo a nic pro tebe nemůžu získat, zkus to znovu za pár sekund. pokud problém přetrvává, zkus to později!",
+    "unknown_response": "nepodařilo se přečíst odpověď z instance zpracování. to je pravděpodobně způsobeno tím, že webová aplikace je zastaralá. obnov aplikaci a zkus to znovu!",
+    "invalid_body": "nepodařilo se odeslat požadavek na instanci zpracování. to je pravděpodobně způsobeno tím, že webová aplikace je zastaralá. obnov aplikaci a zkus to znovu!",
+
+    "service.unsupported": "tato služba zatím není podporovaná. vložil jsi správný odkaz?",
+    "service.disabled": "tato služba je obecně podporovaná titty.tools, ale na této instanci zpracování je zakázaná. zkus odkaz z jiné služby!",
+    "service.audio_not_supported": "tato služba nepodporuje extrakci audia. zkus odkaz z jiné služby!",
+
+    "link.invalid": "tvůj odkaz je neplatný nebo tato služba zatím není podporovaná. vložil jsi správný odkaz?",
+    "link.unsupported": "{{ service }} je podporovaný, ale nepodařilo se mi rozpoznat tvůj odkaz. vložil jsi správný?",
+
+    "fetch.fail": "něco se pokazilo při získávání informací z {{ service }} a nic pro tebe nemůžu získat. pokud problém přetrvává, zkus to znovu za pár sekund!",
+    "fetch.critical": "modul {{ service }} vrátil chybu, kterou neznám. zkus to znovu za pár sekund, ale pokud problém přetrvává, zkus to později!",
+    "fetch.critical.core": "jeden z hlavních modulů vrátil chybu, kterou neznám. zkus to znovu za pár sekund, ale pokud problém přetrvává, zkus to později!",
+    "fetch.empty": "nepodařilo se najít žádná média, která bych pro tebe mohl stáhnout. jsi si jistý, že jsi vložil správný odkaz?",
+    "fetch.rate": "instance zpracování byla omezována ze strany {{ service }}. zkus to znovu za pár sekund!",
+    "fetch.short_link": "nepodařilo se získat informace z krátkého odkazu. jsi si jistý, že funguje? pokud ano a přesto dostáváš tuto chybu, zkus to znovu za pár sekund!",
+
+    "content.too_long": "média, která jsi požadoval, jsou příliš dlouhá. limit délky na této instanci je {{ limit }} minut. zkus něco kratšího!",
+
+    "content.video.unavailable": "nemůžu se dostat k tomuto videu. může být omezené ze strany {{ service }}. zkus jiný odkaz!",
+    "content.video.live": "toto video je právě živé, takže ho ještě nemůžu stáhnout. počkej, až živý přenos skončí, a zkus to znovu!",
+    "content.video.private": "toto video je soukromé, takže k němu nemám přístup. změň jeho viditelnost nebo zkus jiné!",
+    "content.video.age": "toto video je omezeno věkem, takže k němu nemůžu přistupovat anonymně. zkus to znovu nebo zkus jiný odkaz!",
+    "content.video.region": "toto video je regionálně omezené a instance zpracování je v jiné lokalitě. zkus jiný odkaz!",
+
+    "content.region": "tento obsah je regionálně omezený a instance zpracování je v jiné lokalitě. zkus jiný odkaz!",
+    "content.paid": "tento obsah vyžaduje platbu. titty.tools nemůže stahovat placený obsah. zkus jiný odkaz!",
+
+    "content.post.unavailable": "o tomto příspěvku se nepodařilo nic najít. jeho viditelnost může být omezená nebo nemusí existovat. ujisti se, že tvůj odkaz funguje, a zkus to znovu za pár sekund!",
+    "content.post.private": "o tomto příspěvku se nepodařilo nic získat, protože je ze soukromého účtu. zkus jiný odkaz!",
+    "content.post.age": "tento příspěvek je omezen věkem, takže k němu nemůžu přistupovat anonymně. zkus to znovu nebo zkus jiný odkaz!",
+
+    "youtube.no_matching_format": "youtube nevrátil žádné přijatelné formáty. titty.tools je možná nepodporuje, nebo je youtube překóduje. zkus to o něco později, ale pokud problém přetrvává, zkus to znovu!",
+    "youtube.decipher": "youtube aktualizoval svůj decipher algoritmus a nepodařilo se mi získat informace o videu. zkus to znovu za pár sekund, ale pokud problém přetrvává, zkus to později!",
+    "youtube.login": "nepodařilo se získat toto video, protože youtube požádal instanci zpracování, aby dokázala, že není bot. zkus to znovu za pár sekund, ale pokud to stále nefunguje, zkus to později!",
+    "youtube.token_expired": "nepodařilo se získat toto video, protože token youtube vypršel a nebyl obnoven. zkus to znovu za pár sekund, ale pokud to stále nefunguje, zkus to později!",
+    "youtube.no_hls_streams": "pro toto video se nepodařilo najít žádné odpovídající HLS streamy. zkus ho stáhnout bez HLS!",
+    "youtube.api_error": "youtube aktualizoval něco kolem svého api a nepodařilo se mi získat informace o tomto videu. zkus to znovu za pár sekund, ale pokud problém přetrvává, zkus to později!",
+    "youtube.disabled_main_instance": "stahování youtube je na hlavní instanci zakázáno kvůli omezením ze strany youtube a nekonečným nákladům na údržbu ve velkém měřítku.\n\nomlouváme se za nepříjemnosti a doporučujeme hostovat vlastní api instanci.",
+    "youtube.drm": "toto youtube video je chráněno widevine DRM, takže ho nemůžu stáhnout. zkus jiný odkaz!",
+    "youtube.no_session_tokens": "nepodařilo se získat požadované session tokeny pro youtube. to může být způsobeno omezením ze strany youtube. zkus to znovu za pár sekund, ale pokud problém přetrvává, zkus to později!"
+}

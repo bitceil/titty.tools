@@ -1,0 +1,16 @@
+{
+    "title": "fronta zpracování",
+    "stub": "zatím tady nic není, jen my dva.\nzkus něco stáhnout!",
+
+    "state.waiting": "ve frontě",
+    "state.retrying": "opakování",
+    "state.starting": "spouštění",
+
+    "state.starting.fetch": "spouštění stahování",
+    "state.starting.remux": "spouštění remuxování",
+    "state.starting.encode": "spouštění překódování",
+
+    "state.running.remux": "remuxování",
+    "state.running.fetch": "stahování",
+    "state.running.encode": "překódování"
+}

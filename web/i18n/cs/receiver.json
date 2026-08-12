@@ -1,0 +1,7 @@
+{
+    "title": "přetáhni nebo vyber soubor",
+    "title.multiple": "přetáhni nebo vyber soubory",
+    "title.drop": "pusť sem soubor!",
+    "title.drop.multiple": "pusť sem soubory!",
+    "accept": "podporované formáty: {{ formats }}."
+}

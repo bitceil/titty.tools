@@ -1,0 +1,22 @@
+{
+    "no_final_file": "žádný finální výstupní soubor",
+    "worker_didnt_start": "nepodařilo se spustit worker zpracování",
+
+    "generic_error": "worker zpracování spadl, podrobnosti najdeš v konzoli",
+
+    "fetch.crashed": "fetch worker spadl, podrobnosti najdeš v konzoli",
+    "fetch.bad_response": "nepodařilo se přistoupit k souborovému tunelu",
+    "fetch.no_file_reader": "nepodařilo se zapsat soubor do mezipaměti",
+    "fetch.empty_tunnel": "souborový tunel je prázdný, zkus to znovu za pár minut",
+    "fetch.corrupted_file": "soubor nebyl stažen celý, zkus to znovu",
+    "fetch.network_error": "stahování bylo přerušeno kvůli problému se sítí",
+
+    "ffmpeg.probe_failed": "nepodařilo se prozkoumat tento soubor, může být nepodporovaný nebo poškozený",
+    "ffmpeg.out_of_memory": "nedostatek dostupné paměti, nelze pokračovat",
+    "ffmpeg.no_input_format": "formát souboru není podporován",
+    "ffmpeg.no_input_type": "typ souboru není podporován",
+    "ffmpeg.crashed": "ffmpeg worker spadl, podrobnosti najdeš v konzoli",
+    "ffmpeg.no_render": "ffmpeg render je prázdný, stalo se něco velmi zvláštního",
+    "ffmpeg.no_args": "ffmpeg worker nedostal potřebné argumenty",
+    "ffmpeg.no_audio_channel": "toto video nemá zvukovou stopu, není co dělat"
+}

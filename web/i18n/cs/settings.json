@@ -1,0 +1,161 @@
+{
+    "page.appearance": "vzhled",
+    "page.privacy": "soukromí",
+    "page.video": "video",
+    "page.audio": "audio",
+    "page.metadata": "metadata",
+    "page.advanced": "pokročilé",
+    "page.debug": "info pro nerdy",
+    "page.instances": "instance",
+    "page.local": "lokální zpracování",
+    "page.accessibility": "přístupnost",
+
+    "theme": "téma",
+    "theme.auto": "auto",
+    "theme.light": "světlé",
+    "theme.dark": "tmavé",
+    "theme.description": "automatické téma přepíná mezi světlým a tmavým motivem podle režimu zobrazení tvého zařízení.",
+
+    "video.quality": "kvalita videa",
+    "video.quality.max": "8k+",
+    "video.quality.2160": "4k",
+    "video.quality.1440": "1440p",
+    "video.quality.1080": "1080p",
+    "video.quality.720": "720p",
+    "video.quality.480": "480p",
+    "video.quality.360": "360p",
+    "video.quality.240": "240p",
+    "video.quality.144": "144p",
+    "video.quality.description": "pokud preferovaná kvalita videa není dostupná, vybere se další nejlepší.",
+
+    "video.youtube.codec": "preferovaný kodek videa youtube",
+    "video.youtube.codec.description": "h264: nejlepší kompatibilita, průměrná kvalita. maximální kvalita je 1080p. \nav1: nejlepší kvalita a efektivita. podporuje 8k a HDR. \nvp9: stejná kvalita jako av1, ale soubor je ~2x větší. podporuje 4k a HDR.\n\nav1 a vp9 nejsou široce podporovány, možná budeš muset použít další software pro přehrávání nebo úpravy. titty.tools vybere další nejlepší kodek, pokud preferovaný není dostupný.",
+
+    "video.youtube.container": "kontejner souborů youtube",
+    "video.youtube.container.description": "když je vybráno \"auto\", titty.tools automaticky vybere nejlepší kontejner podle zvoleného kodeku: mp4 pro h264; webm pro vp9/av1.",
+
+    "video.youtube.hls": "youtube hls formáty",
+    "video.youtube.hls.title": "preferovat hls pro video a audio",
+    "video.youtube.hls.description": "v tomto režimu jsou dostupné pouze kodeky h264 a vp9. původní audio kodek je aac, je překódován kvůli kompatibilitě, kvalita zvuku může být o něco horší než u ne-HLS verze.\n\ntato možnost je experimentální, v budoucnu může zmizet nebo se změnit.",
+
+    "video.twitter.gif": "twitter/x",
+    "video.twitter.gif.title": "převádět smyčková videa na GIF",
+    "video.twitter.gif.description": "GIF konverze je neefektivní, převedený soubor může být nepříjemně velký a nekvalitní.",
+
+    "video.h265": "vysoce efektivní video kodek",
+    "video.h265.title": "povolit h265 pro videa",
+    "video.h265.description": "umožňuje stahovat videa z platforem jako tiktok ve vyšší kvalitě za cenu kompatibility.",
+
+    "audio.format": "audio formát",
+    "audio.format.best": "nejlepší",
+    "audio.format.mp3": "mp3",
+    "audio.format.ogg": "ogg",
+    "audio.format.wav": "wav",
+    "audio.format.opus": "opus",
+    "audio.format.description": "všechny formáty kromě \"nejlepší\" jsou převedeny ze zdrojového formátu, dojde k určité ztrátě kvality. když je vybrán formát \"nejlepší\", audio zůstává pokud možno v původním formátu.",
+
+    "audio.bitrate": "audio bitrate",
+    "audio.bitrate.kbps": "kb/s",
+    "audio.bitrate.description": "bitrate se aplikuje pouze při převodu audia do ztrátového formátu. titty.tools nemůže zlepšit kvalitu zdrojového audia, takže výběr bitrate nad 128kbps může zvětšit velikost souboru bez slyšitelného rozdílu. vnímaná kvalita se může lišit podle formátu.",
+
+    "audio.youtube.dub": "zvuková stopa youtube",
+    "audio.youtube.dub.title": "preferovaný dabingový jazyk",
+    "audio.youtube.dub.description": "titty.tools použije dabovanou zvukovou stopu pro vybraný jazyk, pokud je dostupná. pokud ne, použije se originál.",
+    "youtube.dub.original": "originál",
+
+    "subtitles": "titulky",
+    "subtitles.title": "preferovaný jazyk titulků",
+    "subtitles.description": "titty.tools přidá titulky ke staženému souboru v preferovaném jazyce, pokud jsou dostupné.\n\nněkteré služby nemají výběr jazyka, a v takovém případě titty.tools přidá jedinou dostupnou stopu titulků, pokud máš vybraný nějaký jazyk.",
+    "subtitles.none": "žádné",
+
+    "audio.youtube.better_audio": "kvalita zvuku youtube",
+    "audio.youtube.better_audio.title": "preferovat vyšší kvalitu",
+    "audio.youtube.better_audio.description": "titty.tools se v audio režimu pokusí vybrat nejvyšší kvalitu zvuku. nemusí být dostupná v závislosti na odpovědi youtube, aktuálním provozu a stavu serveru. vlastní instance nemusí tuto možnost podporovat.",
+
+    "audio.tiktok.original": "tiktok",
+    "audio.tiktok.original.title": "stáhnout původní zvuk",
+    "audio.tiktok.original.description": "titty.tools stáhne zvuk z videa bez jakýchkoli změn autorem příspěvku.",
+
+    "metadata.filename": "styl názvu souboru",
+    "metadata.filename.classic": "klasický",
+    "metadata.filename.basic": "základní",
+    "metadata.filename.pretty": "pěkný",
+    "metadata.filename.nerdy": "nerdy",
+    "metadata.filename.description": "styl názvu souboru se použije pouze pro soubory tunelované titty.tools. některé služby nepodporují jiné styly názvů než klasický.",
+
+    "metadata.filename.preview.video": "Název Videa - Autor Videa",
+    "metadata.filename.preview.audio": "Název Audia - Autor Audia",
+    "filename.preview_desc.video": "náhled video souboru",
+    "filename.preview_desc.audio": "náhled audio souboru",
+
+    "metadata.file": "metadata souboru",
+    "metadata.disable.title": "zakázat metadata souboru",
+    "metadata.disable.description": "název, interpret a další informace nebudou přidány do souboru.",
+
+    "saving.title": "způsob ukládání",
+    "saving.ask": "zeptat se",
+    "saving.download": "stáhnout",
+    "saving.share": "sdílet",
+    "saving.copy": "kopírovat",
+    "saving.description": "preferovaný způsob uložení souboru nebo odkazu z titty.tools. pokud preferovaná metoda není dostupná nebo se něco pokazí, titty.tools se tě zeptá, co dělat dál.",
+
+    "accessibility.visual": "vizuální",
+    "accessibility.haptics": "haptika",
+    "accessibility.behavior": "chování",
+
+    "accessibility.transparency.title": "snížit vizuální průhlednost",
+    "accessibility.transparency.description": "průhlednost povrchů bude snížena a všechny efekty rozostření budou vypnuty. může také zlepšit výkon ui na méně výkonných zařízeních.",
+    "accessibility.motion.title": "snížit pohyb",
+    "accessibility.motion.description": "animace a přechody budou vypnuty, kdykoli to bude možné.",
+    "accessibility.haptics.title": "vypnout haptiku",
+    "accessibility.haptics.description": "všechny haptické efekty budou vypnuty.",
+    "accessibility.auto_queue.title": "neotvírat frontu automaticky",
+    "accessibility.auto_queue.description": "fronta zpracování se nebude automaticky otevírat, kdykoli je přidána nová položka. průběh se stále zobrazí a frontu budeš moci otevřít ručně.",
+
+    "language": "jazyk",
+    "language.auto.title": "automatický výběr",
+    "language.auto.description": "titty.tools použije výchozí jazyk tvého prohlížeče, pokud je překlad dostupný. pokud ne, použije se angličtina.",
+    "language.preferred.title": "preferovaný jazyk",
+    "language.preferred.description": "tento jazyk se použije, když je automatický výběr vypnutý. jakýkoli text, který není přeložen, se zobrazí v angličtině.\n\nněkteré jazyky používají překlady od komunity, mohou být nepřesné nebo neúplné.",
+
+    "privacy.analytics": "anonymní analýza návštěvnosti",
+    "privacy.analytics.title": "nepřispívat k analýze",
+    "privacy.analytics.description": "anonymní analýza návštěvnosti je potřeba k získání přibližného počtu aktivních uživatelů titty.tools. žádné identifikovatelné informace o tobě nejsou nikdy ukládány. všechna zpracovaná data jsou anonymizována a agregována.\n\npoužíváme vlastní plausible instanci, která nepoužívá cookies a je plně v souladu s GDPR, CCPA a PECR.",
+    "privacy.analytics.learnmore": "zjisti více o závazku plausible k soukromí.",
+
+    "privacy.tunnel": "tunelování",
+    "privacy.tunnel.title": "vždy tunelovat soubory",
+    "privacy.tunnel.description": "titty.tools skryje tvoji ip adresu, informace o prohlížeči a obejde omezení lokální sítě. při zapnutí budou mít soubory také čitelné názvy, které by jinak byly nesrozumitelné.",
+
+    "advanced.debug": "debug",
+    "advanced.debug.title": "povolit funkce pro nerdy",
+    "advanced.debug.description": "poskytne ti snadný přístup k informacím o aplikaci užitečným pro ladění. povolení nijak neovlivní funkčnost titty.tools.",
+
+    "processing.community": "instance",
+    "processing.enable_custom.title": "použít vlastní server zpracování",
+    "processing.enable_custom.description": "titty.tools použije vlastní server zpracování, pokud si vybereš. i když má titty.tools zavedena některá bezpečnostní opatření, neodpovídáme za žádné škody způsobené přes vlastní instanci, protože je nemáme pod kontrolou.\n\nbuď prosím obezřetný při výběru instancí a ujisti se, že je hostují lidé, kterým důvěřuješ.",
+
+    "processing.access_key": "přístupový klíč instance",
+    "processing.access_key.title": "použít přístupový klíč instance",
+    "processing.access_key.description": "titty.tools použije tento klíč pro požadavky na instanci zpracování místo jiných metod ověřování. ujisti se, že instance podporuje api klíče!",
+
+    "processing.custom_instance.input.alt_text": "doména vlastní instance",
+    "processing.access_key.input.alt_text": "u-u-i-d přístupový klíč",
+
+    "advanced.settings_data": "data nastavení",
+    "advanced.local_storage": "lokální úložiště",
+
+    "local.saving": "lokální zpracování médií",
+    "local.saving.description": "při stahování médií bude remuxování a překódování probíhat na zařízení místo v cloudu. ve frontě zpracování uvidíš podrobný průběh.\n\nvypnuto: lokální zpracování se nebude používat. instance zpracování mohou vynucovat lokální zpracování, takže tato možnost nemusí mít účinek.\npreferováno: média, která vyžadují extra zpracování, budou stažena přes frontu zpracování, ale zbytek médií stáhne správce stahování prohlížeče.\nvynuceno: všechna média budou vždy proxována a stažena přes frontu zpracování.\n\nexkluzivní funkce na zařízení nejsou tímto nastavením ovlivněny, vždy běží lokálně.",
+    "local.saving.disabled": "vypnuto",
+    "local.saving.preferred": "preferováno",
+    "local.saving.forced": "vynuceno",
+
+    "local.webcodecs": "webcodecs",
+    "local.webcodecs.title": "použít webcodecs pro zpracování na zařízení",
+    "local.webcodecs.description": "při dekódování nebo kódování souborů se titty.tools pokusí použít webcodecs. tato funkce umožňuje gpu-akcelerované zpracování mediálních souborů, takže veškeré dekódování a kódování bude mnohem rychlejší.\n\ndostupnost a stabilita této funkce závisí na schopnostech tvého zařízení a prohlížeče. věci se mohou rozbít nebo nefungovat správně.",
+
+    "tabs": "navigace",
+    "tabs.hide_remux": "skrýt kartu remux",
+    "tabs.hide_remux.description": "pokud nepoužíváš nástroj remux, můžeš ho skrýt z navigační lišty."
+}

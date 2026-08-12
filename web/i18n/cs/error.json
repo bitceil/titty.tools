@@ -1,0 +1,11 @@
+{
+    "import.no_data": "v tomto souboru nejsou žádná nastavení k načtení. jsi si jistý, že je to správný soubor?",
+    "import.invalid": "tento soubor neobsahuje platná nastavení titty.tools k importu. jsi si jistý, že je to správný soubor?",
+    "import.unknown": "nepodařilo se načíst data ze souboru. může být poškozený nebo mít špatný formát. zde je chyba, kterou jsem dostal:\n\n{{ value }}",
+
+    "tunnel.probe": "nepodařilo se otestovat tento tunel. tvůj prohlížeč nebo síť může blokovat přístup k některému ze serverů titty.tools. jsi si jistý, že nemáš žádná divná rozšíření prohlížeče?",
+
+    "captcha_too_long": "cloudflare turnstile kontroluje příliš dlouho, zda nejsi bot. zkus to znovu, ale pokud to bude trvat příliš dlouho znovu, můžeš zkusit: vypnout divná rozšíření prohlížeče, změnit síť, použít jiný prohlížeč nebo zkontrolovat zařízení na malware.",
+
+    "pipeline.missing_response_data": "instance zpracování nevrátila potřebné informace o souboru, takže pro tebe nemůžu vytvořit lokální pipeline zpracování. pokud to přetrvává, zkus to znovu za pár sekund!"
+}
