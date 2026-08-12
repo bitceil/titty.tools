@@ -27,6 +27,103 @@ const ytDlp = process.env.YOUTUBE_DL_PATH
     ? create(process.env.YOUTUBE_DL_PATH)
     : youtubedl;
 
+// returns the yt-dlp binary version (cached after the first call).
+// used by the health endpoint and the startup log.
+let cachedVersion;
+const getYtDlpVersion = async () => {
+    if (cachedVersion !== undefined) return cachedVersion;
+    try {
+        const { stdout } = await ytDlp.exec("--version");
+        cachedVersion = String(stdout).trim() || undefined;
+    } catch {
+        cachedVersion = undefined;
+    }
+    return cachedVersion;
+}
+
+export { getYtDlpVersion };
+
+// extracts the list of videos from a playlist/album/mix url.
+// entries are fetched in flat mode, so this only does one
+// metadata roundtrip instead of one per video.
+//
+// note: we use the raw exec() here on purpose. youtube-dl-exec's
+// wrapper assumes a single JSON object on stdout, but yt-dlp prints
+// one JSON line per entry for playlists, which breaks JSON.parse.
+export const getPlaylistEntries = async (url) => {
+    const cookiesFile = await createYtDlpCookies();
+
+    try {
+        const { stdout, stderr, exitCode } = await ytDlp.exec(url, {
+            dumpJson: true,
+            flatPlaylist: true,
+            quiet: true,
+            noWarnings: true,
+            noColor: true,
+            socketTimeout: 30,
+            ...(cookiesFile ? { cookies: cookiesFile } : {}),
+            ...(proxyEnv ? { proxy: proxyEnv } : {}),
+        });
+
+        if (exitCode !== 0) {
+            return { error: mapError({ stderr }) };
+        }
+
+        // first line is the playlist info, the rest are the entries
+        const objects = String(stdout).split("\n")
+            .map(line => line.trim())
+            .filter(line => line.startsWith("{"))
+            .map(line => {
+                try {
+                    return JSON.parse(line);
+                } catch {
+                    return undefined;
+                }
+            })
+            .filter(Boolean);
+
+        if (!objects.length) {
+            return { error: { error: "fetch.empty" } };
+        }
+
+        // with --flat-playlist --dump-json, yt-dlp prints one JSON
+        // object per entry (no playlist header), so every line is an entry
+        const entries = objects
+            .map(entry => ({
+                url: entry.url,
+                id: entry.id,
+                title: entry.title,
+                duration: entry.duration,
+            }))
+            .filter(entry => entry.url || entry.id);
+
+        return {
+            title: entries.find(e => e.title)?.title,
+            entries,
+        };
+    } catch (e) {
+        return { error: mapError(e) };
+    } finally {
+        await destroyYtDlpCookies(cookiesFile);
+    }
+}
+
+// does this url point at a playlist rather than a single video?
+// (only meaningful for services that support playlists, e.g. youtube)
+export const isPlaylistUrl = (url) => {
+    try {
+        const parsed = new URL(url);
+        const path = parsed.pathname.toLowerCase();
+        const list = parsed.searchParams.get("list");
+        return list?.length > 10
+            || path.includes("/playlist")
+            || path.includes("/set/")
+            || path.includes("/album/");
+    } catch {
+        return false;
+    }
+}
+
 const videoCodecPrefix = {
     h264: "avc1",
     av1: "av01",

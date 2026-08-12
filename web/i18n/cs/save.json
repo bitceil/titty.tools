@@ -12,6 +12,9 @@
     "services.title_hide": "skrýt podporované služby",
     "services.disclaimer": "podpora služby neznamená přidružení, schválení ani žádnou jinou formu podpory než technickou kompatibilitu.",
     "services.ytdlp": "titty.tools podporuje všechny výše uvedené služby a také tisíce dalších webů, díky backendu yt-dlp.",
+    "playlist.confirm": "Toto vypadá jako playlist s {count} videi. Stáhnout všechna?",
+    "playlist.download": "stáhnout všechna",
+    "playlist.error": "Playlist se nepodařilo načíst. Zkus vložit odkaz na jedno video.",
 
     "tutorial.title": "jak uložit na ios?",
     "tutorial.intro": "pro pohodlné ukládání na ios budeš potřebovat doprovodnou zkratku siri z nabídky sdílení.",

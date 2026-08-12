@@ -7,6 +7,7 @@ import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info
 import jwt from "../security/jwt.js";
 import stream from "../stream/stream.js";
 import match from "../processing/match.js";
+import { getPlaylistEntries, getYtDlpVersion, isPlaylistUrl } from "../processing/services/ytdlp.js";
 
 import { env } from "../config.js";
 import { extract } from "../processing/url.js";
@@ -318,6 +319,38 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
     app.get('/', (_, res) => {
         res.type('json');
         res.status(200).send(env.envFile ? getServerInfo() : serverInfo);
+    })
+
+    // lightweight health check for uptime monitoring
+    app.get('/healthz', async (_, res) => {
+        const info = JSON.parse(env.envFile ? getServerInfo() : serverInfo);
+        res.status(200).send({
+            status: "ok",
+            ...info,
+            ytdlp: await getYtDlpVersion(),
+        });
+    })
+
+    // expand a playlist url into its individual videos
+    app.get('/playlist', apiTunnelLimiter, async (req, res) => {
+        const url = String(req.query.url || "");
+
+        if (!url || !isPlaylistUrl(url)) {
+            return fail(res, "error.api.link.invalid");
+        }
+
+        const { title, entries, error } = await getPlaylistEntries(url);
+
+        if (error) {
+            return fail(res, `error.api.${error.error}`);
+        }
+
+        res.type('json');
+        res.status(200).send({
+            status: "ok",
+            title,
+            entries,
+        });
     })
 
     app.get('/favicon.ico', (req, res) => {

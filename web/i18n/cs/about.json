@@ -1,12 +1,16 @@
 {
     "page.general": "co je titty.tools?",
 
+    "page.differences": "čím se to liší?",
     "page.community": "komunita a podpora",
 
     "page.privacy": "zásady ochrany soukromí",
     "page.terms": "podmínky a etika",
     "page.credits": "poděkování a licence",
 
+    "heading.differences": "co se liší",
+    "heading.differences_what": "co je titty.tools?",
+    "heading.differences_report": "kam hlásit problémy",
     "heading.general": "obecné podmínky",
     "heading.licenses": "licence",
     "heading.summary": "nejlepší způsob, jak uložit, co miluješ",

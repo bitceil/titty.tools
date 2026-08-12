@@ -11,6 +11,10 @@
     export let disabled = false;
     export let loading = false;
 
+    export let ondownload: (url: string) => void = (url) => {
+        savingHandler({ url });
+    };
+
     $: buttonText = ">>";
     $: buttonAltText = $t("a11y.save.download");
 
@@ -56,7 +60,7 @@
     {disabled}
     on:click={() => {
         hapticSwitch();
-        savingHandler({ url });
+        ondownload(url);
     }}
     aria-label={buttonAltText}
 >

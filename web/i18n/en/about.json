@@ -1,11 +1,17 @@
 {
     "page.general": "what's titty.tools?",
 
+    "page.differences": "how is this different?",
+
     "page.community": "community & support",
 
     "page.privacy": "privacy policy",
     "page.terms": "terms and ethics",
     "page.credits": "thanks & licenses",
+
+    "heading.differences": "what's different",
+    "heading.differences_what": "what is titty.tools?",
+    "heading.differences_report": "where to report issues",
 
     "heading.general": "general terms",
     "heading.licenses": "licenses",

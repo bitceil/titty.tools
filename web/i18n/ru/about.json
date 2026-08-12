@@ -1,5 +1,8 @@
 {
     "page.general": "что такое titty.tools?",
+    "heading.differences": "что отличается",
+    "heading.differences_what": "что такое titty.tools?",
+    "heading.differences_report": "куда сообщать о проблемах",
     "heading.general": "общие условия",
     "heading.saving": "скачивание",
     "heading.encryption": "шифрование",
@@ -7,6 +10,7 @@
     "heading.motivation": "мотивация",
     "heading.licenses": "лицензии",
     "heading.summary": "лучший способ сохранять то, что ты любишь",
+    "page.differences": "чем это отличается?",
     "page.community": "сообщество и поддержка",
     "page.privacy": "конфиденциальность",
     "page.terms": "условия и этика",

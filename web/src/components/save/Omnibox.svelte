@@ -6,11 +6,12 @@
 
     import { t } from "$lib/i18n/translations";
 
-    import dialogs from "$lib/state/dialogs";
-    import { link } from "$lib/state/omnibox";
+    import dialogs, { createDialog } from "$lib/state/dialogs";
+    import { link, downloadButtonState } from "$lib/state/omnibox";
     import { hapticSwitch } from "$lib/haptics";
     import { updateSetting } from "$lib/state/settings";
     import { savingHandler } from "$lib/api/saving-handler";
+    import { isPlaylistUrl, getPlaylistEntries, entryUrl } from "$lib/api/playlist";
     import { pasteLinkFromClipboard } from "$lib/clipboard";
     import { turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 
@@ -94,6 +95,70 @@
         }
     });
 
+    // single entry point for starting a download: playlists are
+    // expanded first, everything else goes straight to the handler
+    const handleDownload = (url: string) => {
+        if (isPlaylistUrl(url)) {
+            startPlaylist(url);
+        } else {
+            savingHandler({ url });
+        }
+    };
+
+    const startPlaylist = async (url: string) => {
+        isDisabled = true;
+        isLoading = true;
+
+        const data = await getPlaylistEntries(url);
+
+        isDisabled = false;
+        isLoading = false;
+
+        const urls = (data?.entries || [])
+            .map(entryUrl)
+            .filter((u): u is string => !!u);
+
+        if (!urls.length) {
+            return createDialog({
+                id: "playlist-error",
+                type: "small",
+                mascot: "error",
+                buttons: [
+                    {
+                        text: $t("button.gotit"),
+                        main: true,
+                        action: () => {},
+                    },
+                ],
+                bodyText: $t("save.playlist.error"),
+            });
+        }
+
+        createDialog({
+            id: "playlist-confirm",
+            type: "small",
+            mascot: "question",
+            leftAligned: true,
+            bodyText: $t("save.playlist.confirm").replace("{count}", String(urls.length)),
+            buttons: [
+                {
+                    text: $t("button.cancel"),
+                    main: false,
+                    action: () => {},
+                },
+                {
+                    text: $t("save.playlist.download"),
+                    main: true,
+                    action: async () => {
+                        for (const videoUrl of urls) {
+                            await savingHandler({ url: videoUrl });
+                        }
+                    },
+                },
+            ],
+        });
+    };
+
     const pasteClipboard = async () => {
         if ($dialogs.length > 0 || isDisabled || isLoading) {
             return;
@@ -108,6 +173,10 @@
 
         if (linkMatch) {
             $link = linkMatch[0].split('，')[0];
+
+            if (isPlaylistUrl($link)) {
+                return startPlaylist($link);
+            }
 
             await tick(); // wait for button to render
             savingHandler({ url: $link });
@@ -128,7 +197,7 @@
         }
 
         if (e.key === "Enter" && validLink($link) && isFocused) {
-            savingHandler({ url: $link });
+            handleDownload($link);
         }
 
         if (["Escape", "Clear"].includes(e.key) && isFocused) {
@@ -199,6 +268,7 @@
         <ClearButton click={() => ($link = "")} />
         <DownloadButton
             url={$link}
+            on:download={() => handleDownload($link)}
             bind:disabled={isDisabled}
             bind:loading={isLoading}
         />

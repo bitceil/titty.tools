@@ -123,3 +123,16 @@ export type CobaltAPIResponse = CobaltErrorResponse
                               | CobaltRedirectResponse
                               | CobaltTunnelResponse
                               | CobaltLocalProcessingResponse;
+
+export type CobaltPlaylistEntry = {
+    url: string,
+    id?: string,
+    title?: string,
+    duration?: number,
+}
+
+export type CobaltPlaylistResponse = {
+    status: "ok",
+    title?: string,
+    entries: CobaltPlaylistEntry[],
+}

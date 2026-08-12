@@ -11,6 +11,7 @@
     import IconChecklist from "@tabler/icons-svelte/IconChecklist.svelte";
     import IconUsersGroup from "@tabler/icons-svelte/IconUsersGroup.svelte";
     import IconHeartHandshake from "@tabler/icons-svelte/IconHeartHandshake.svelte";
+    import IconGitFork from "@tabler/icons-svelte/IconGitFork.svelte";
 </script>
 
 <PageNav
@@ -27,6 +28,12 @@
                 title={$t("about.page.general")}
                 icon={IconComet}
                 iconColor="blue"
+            />
+            <PageNavTab
+                path="/about/differences"
+                title={$t("about.page.differences")}
+                icon={IconGitFork}
+                iconColor="orange"
             />
             <PageNavTab
                 path="/about/community"
