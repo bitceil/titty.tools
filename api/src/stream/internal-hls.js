@@ -1,6 +1,8 @@
 import HLS from "hls-parser";
-import { createInternalStream } from "./manage.js";
 import { request } from "undici";
+
+import { createInternalStream } from "./manage.js";
+import { wrapWithRedirect } from "./shared.js";
 
 function getURL(url) {
     try {
@@ -79,6 +81,7 @@ export async function handleHlsPlaylist(streamInfo, req, res) {
 async function getSegmentSize(url, config) {
     const segmentResponse = await request(url, {
         ...config,
+        dispatcher: wrapWithRedirect(config.dispatcher),
         throwOnError: true
     });
 
@@ -106,7 +109,7 @@ export async function probeInternalHLSTunnel(streamInfo) {
         if (!headers[key]) delete headers[key];
     });
 
-    const config = { headers, dispatcher, signal, maxRedirections: 16 };
+    const config = { headers, dispatcher, signal };
 
     const manifestResponse = await fetch(url, config);
 

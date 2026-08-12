@@ -1,0 +1,83 @@
+[
+    {
+        "name": "youtube video",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": ["tunnel"]
+        }
+    },
+    {
+        "name": "youtube video (local processing)",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "params": {
+            "localProcessing": "preferred",
+            "videoQuality": "360"
+        },
+        "expected": {
+            "code": 200,
+            "status": ["local-processing"]
+        }
+    },
+    {
+        "name": "youtube audio",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "params": {
+            "downloadMode": "audio"
+        },
+        "expected": {
+            "code": 200,
+            "status": ["tunnel"]
+        }
+    },
+    {
+        "name": "youtube with subtitles",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "params": {
+            "subtitleLang": "en"
+        },
+        "expected": {
+            "code": 200,
+            "status": ["tunnel"]
+        }
+    },
+    {
+        "name": "tiktok video",
+        "url": "https://www.tiktok.com/@tiktok/video/7106594312292453675",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": ["tunnel", "redirect"]
+        }
+    },
+    {
+        "name": "vimeo video",
+        "url": "https://vimeo.com/148751763",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": ["tunnel", "redirect", "local-processing"]
+        }
+    },
+    {
+        "name": "inexistent video",
+        "url": "https://www.youtube.com/watch?v=gnjuHYWGEW",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": ["error"],
+            "errorCode": "error.api.content.video.unavailable"
+        }
+    },
+    {
+        "name": "unsupported url",
+        "url": "https://example.com/",
+        "params": {},
+        "expected": {
+            "code": 400,
+            "status": ["error"],
+            "errorCode": "error.api.link.unsupported"
+        }
+    }
+]

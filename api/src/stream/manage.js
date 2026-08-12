@@ -215,7 +215,7 @@ const transplantInternalTunnels = function(tunnelUrls, transplantUrls) {
     }
 }
 
-const transplantTunnel = async function (dispatcher) {
+const transplantTunnel = async function () {
     if (this.pendingTransplant) {
         await this.pendingTransplant;
         return;
@@ -225,10 +225,9 @@ const transplantTunnel = async function (dispatcher) {
     this.pendingTransplant = new Promise(r => finished = r);
 
     try {
-        const handler = await import(`../processing/services/${this.service}.js`);
+        const handler = await import(`../processing/services/ytdlp.js`);
         const response = await handler.default({
             ...this.originalRequest,
-            dispatcher
         });
 
         if (!response.urls) {
@@ -236,9 +235,12 @@ const transplantTunnel = async function (dispatcher) {
         }
 
         response.urls = [response.urls].flat();
-        if (this.originalRequest.isAudioOnly && response.urls.length > 1) {
+        const isAudioOnly = this.originalRequest.downloadMode === "audio";
+        const isAudioMuted = this.originalRequest.downloadMode === "mute";
+
+        if (isAudioOnly && response.urls.length > 1) {
             response.urls = [response.urls[1]];
-        } else if (this.originalRequest.isAudioMuted) {
+        } else if (isAudioMuted) {
             response.urls = [response.urls[0]];
         }
 

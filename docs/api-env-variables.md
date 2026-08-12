@@ -60,17 +60,6 @@ this document is not final and will expand over time. feel free to improve it!
 
 [*view details*](#security)
 
-### service-specific vars
-| name                             | value example            |
-|:---------------------------------|:-------------------------|
-| CUSTOM_INNERTUBE_CLIENT          | `IOS`                    |
-| YOUTUBE_SESSION_SERVER           | `http://localhost:8080/` |
-| YOUTUBE_SESSION_INNERTUBE_CLIENT | `WEB_EMBEDDED`           |
-| YOUTUBE_ALLOW_BETTER_AUDIO       | `1`                      |
-| ENABLE_DEPRECATED_YOUTUBE_HLS    | `key`                    |
-| YOUTUBE_PLAYER_ID                | `abcdefff`               |
-
-[*view details*](#service-specific)
 
 ## general
 [*jump to the table*](#general-vars)
@@ -111,7 +100,7 @@ the value is a URL.
 ### DISABLED_SERVICES
 comma-separated list which disables certain services from being used.
 
-the value is a string of cobalt-supported services.
+the value is a string of service names (e.g. `youtube,tiktok`).
 
 ### FORCE_LOCAL_PROCESSING
 the value is a string: `never` (default), `session`, or `always`:
@@ -254,38 +243,10 @@ when set to `1`, the user always needs to be authenticated in some way before th
 
 the value is a number, either `0` or `1`.
 
-## service-specific
-[*jump to the table*](#service-specific-vars)
+## yt-dlp
+cobalt delegates media extraction to [yt-dlp](https://github.com/yt-dlp/yt-dlp), which supports thousands of websites.
 
-### CUSTOM_INNERTUBE_CLIENT
-innertube client that will be used instead of the default one.
-
-the value is a string.
-
-### YOUTUBE_SESSION_SERVER
-URL to an instance of [yt-session-generator](https://github.com/imputnet/yt-session-generator). used for automatically pulling `poToken` & `visitor_data` for youtube. can be local or remote.
-
-the value is a URL.
-
-### YOUTUBE_SESSION_INNERTUBE_CLIENT
-innertube client that's compatible with botguard's (web) `poToken` and `visitor_data`.
-
-the value is a string.
-
-### YOUTUBE_PLAYER_ID
-a comma-separated-list of player IDs to use for youtube fetching.
-if defined, cobalt chooses one of them at each client initialization, otherwise
-defaults to the current latest player ID.
-
-the value is a string.
-
-### YOUTUBE_ALLOW_BETTER_AUDIO
-when set to `1`, cobalt will try to use higher quality audio if user requests it via `youtubeBetterAudio`. will negatively impact the rate limit of a secondary youtube client with a session.
-
-the value is a number, either `0` or `1`.
-
-### ENABLE_DEPRECATED_YOUTUBE_HLS
-the value is a string: `never` (default), `key`, or `always`:
-- when the var is not defined or set to `never`, `youtubeHLS` in POST requests will be ignored.
-- when set to `key`, only requests from api-key clients will be able to use `youtubeHLS` in POST requests.
-- when set to `always`, all requests will be able to use `youtubeHLS` in POST requests.
+- a yt-dlp binary is bundled with the api at install time via [`youtube-dl-exec`](https://github.com/microlinkhq/youtube-dl-exec) (same approach as `ffmpeg-static`).
+- to use a different binary (e.g. a pip-installed yt-dlp with `curl_cffi` impersonation support), set the `YOUTUBE_DL_PATH` environment variable to its path.
+- account cookies from `COOKIE_PATH` (`cookies.json`) are passed to yt-dlp for the supported services (`instagram`, `reddit`, `twitter`, `youtube`).
+- because extraction no longer depends on bespoke cobalt code, new websites and fixes arrive with yt-dlp updates.

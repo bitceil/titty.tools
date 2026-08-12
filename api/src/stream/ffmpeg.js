@@ -4,7 +4,6 @@ import { create as contentDisposition } from "content-disposition-header";
 
 import { env } from "../config.js";
 import { destroyInternalStream } from "./manage.js";
-import { hlsExceptions } from "../processing/service-config.js";
 import { closeResponse, pipe, estimateTunnelLength, estimateAudioMultiplier } from "./shared.js";
 
 const metadataTags = new Set([
@@ -135,7 +134,10 @@ const remux = async (streamInfo, res) => {
         args.push('-movflags', 'faststart+frag_keyframe+empty_moov');
     }
 
-    if (streamInfo.type !== 'mute' && streamInfo.isHLS && hlsExceptions.has(streamInfo.service)) {
+    // most hls sources serve aac audio in an adts container,
+    // which isn't valid in mp4, so we convert it here.
+    // only exception is youtube webm hls, where audio is already opus.
+    if (streamInfo.type !== 'mute' && streamInfo.isHLS) {
         if (streamInfo.service === 'youtube' && format === 'webm') {
             args.push('-c:a', 'libopus');
         } else {

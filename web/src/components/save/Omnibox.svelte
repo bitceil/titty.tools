@@ -1,6 +1,4 @@
 <script lang="ts">
-    import env, { officialApiURL } from "$lib/env";
-
     import { tick } from "svelte";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
@@ -142,16 +140,6 @@
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
-
-<!--
-    if you want to remove the community instance label,
-    refer to the license first https://github.com/imputnet/cobalt/tree/main/web#license
--->
-{#if env.DEFAULT_API !== officialApiURL}
-    <div id="instance-label">
-        {$t("save.label.community_instance")}
-    </div>
-{/if}
 
 <div id="omnibox">
     {#if $turnstileEnabled}
@@ -351,12 +339,6 @@
 
     #paste-mobile-text {
         display: none;
-    }
-
-    #instance-label {
-        font-size: 13px;
-        color: var(--gray);
-        font-weight: 500;
     }
 
     @media screen and (max-width: 440px) {

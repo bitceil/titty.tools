@@ -3,8 +3,6 @@ import { strict as assert } from "node:assert";
 
 import { env } from "../config.js";
 import { services } from "./service-config.js";
-import { getRedirectingURL } from "../misc/utils.js";
-import { friendlyServiceName } from "./service-alias.js";
 
 function aliasURL(url) {
     assert(url instanceof URL);
@@ -120,7 +118,9 @@ function cleanURL(url) {
     assert(url instanceof URL);
     const host = psl.parse(url.hostname).sld;
 
-    let stripQuery = true;
+    // only known services get their query params stripped/limited;
+    // unknown domains may rely on query params, so we leave them intact
+    let stripQuery = !(host in services);
 
     const limitQuery = (param) => {
         url.search = `?${param}=` + encodeURIComponent(url.searchParams.get(param));
@@ -194,13 +194,16 @@ export function extract(url, enabledServices = env.enabledServices) {
         url = new URL(url);
     }
 
-    const host = getHostIfValid(url);
-
-    if (!host) {
+    if (!['http:', 'https:'].includes(url.protocol)) {
         return { error: "link.invalid" };
     }
 
-    if (!enabledServices.has(host)) {
+    // yt-dlp handles extraction for everything, so we don't gate URLs by
+    // service patterns anymore. known services are still detected to give
+    // nicer error messages and to respect DISABLED_SERVICES.
+    const host = getHostIfValid(url) || psl.parse(url.hostname).sld || "unknown";
+
+    if (services[host] && !enabledServices.has(host)) {
         // show a different message when youtube is disabled on official instances
         // as it only happens when shit hits the fan
         if (new URL(env.apiURL).hostname.endsWith(".imput.net") && host === "youtube") {
@@ -209,39 +212,5 @@ export function extract(url, enabledServices = env.enabledServices) {
         return { error: "service.disabled" };
     }
 
-    let patternMatch;
-    for (const pattern of services[host].patterns) {
-        patternMatch = pattern.match(
-            url.pathname.substring(1) + url.search
-        );
-
-        if (patternMatch) {
-            break;
-        }
-    }
-
-    if (!patternMatch) {
-        return {
-            error: "link.unsupported",
-            context: {
-                service: friendlyServiceName(host),
-            }
-        };
-    }
-
-    return { host, patternMatch };
-}
-
-export async function resolveRedirectingURL(url, dispatcher, headers) {
-    const originalService = getHostIfValid(normalizeURL(url));
-    if (!originalService) return;
-
-    const canonicalURL = await getRedirectingURL(url, dispatcher, headers);
-    if (!canonicalURL) return;
-
-    const { host, patternMatch } = extract(normalizeURL(canonicalURL));
-
-    if (host === originalService) {
-        return patternMatch;
-    }
+    return { host, url };
 }

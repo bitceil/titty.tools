@@ -1,10 +1,8 @@
-import { Agent, request } from "undici";
+import { request } from "undici";
 import { create as contentDisposition } from "content-disposition-header";
 
 import { destroyInternalStream } from "./manage.js";
-import { getHeaders, closeRequest, closeResponse, pipe } from "./shared.js";
-
-const defaultAgent = new Agent();
+import { getHeaders, closeRequest, closeResponse, pipe, wrapWithRedirect } from "./shared.js";
 
 export default async function (streamInfo, res) {
     const abortController = new AbortController();
@@ -24,8 +22,7 @@ export default async function (streamInfo, res) {
                 Range: streamInfo.range
             },
             signal: abortController.signal,
-            maxRedirections: 16,
-            dispatcher: defaultAgent,
+            dispatcher: wrapWithRedirect(),
         });
 
         res.status(statusCode);

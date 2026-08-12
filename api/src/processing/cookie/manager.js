@@ -1,6 +1,9 @@
 import Cookie from './cookie.js';
 
-import { readFile, writeFile } from 'fs/promises';
+import { randomUUID } from 'crypto';
+import os from 'node:os';
+import path from 'node:path';
+import { readFile, writeFile, unlink } from 'fs/promises';
 import { Red, Green, Yellow } from '../../misc/console-text.js';
 import { parse as parseSetCookie, splitCookiesString } from 'set-cookie-parser';
 import * as cluster from '../../misc/cluster.js';
@@ -154,4 +157,51 @@ export function updateCookie(cookie, headers) {
     parsed.filter(c => !c.expires || c.expires > new Date()).forEach(c => values[c.name] = c.value);
 
     updateCookieValues(cookie, values);
+}
+
+// domains yt-dlp should attach cookies from the cobalt cookie store to
+const ytdlpCookieDomains = {
+    instagram: [".instagram.com"],
+    reddit: [".reddit.com"],
+    twitter: [".x.com", ".twitter.com"],
+    youtube: [".youtube.com"],
+}
+
+// yt-dlp reads cookies from a netscape-format cookies file,
+// so we materialize the cobalt cookie store into one on demand.
+// returns a path to the temporary file, or undefined if there are no cookies.
+export async function createYtDlpCookies() {
+    const lines = [];
+
+    for (const [ service, domains ] of Object.entries(ytdlpCookieDomains)) {
+        const serviceCookies = cookies[service];
+        if (!serviceCookies?.length) continue;
+
+        for (const entry of serviceCookies) {
+            const cookie = typeof entry === 'string'
+                ? Cookie.fromString(entry)
+                : entry;
+
+            for (const [ name, value ] of Object.entries(cookie.values())) {
+                for (const domain of domains) {
+                    lines.push(
+                        [domain, 'TRUE', '/', 'TRUE', '0', name, value].join('\t')
+                    );
+                }
+            }
+        }
+    }
+
+    if (!lines.length) return;
+
+    const file = path.join(os.tmpdir(), `cobalt-yt-dlp-${randomUUID()}.txt`);
+    await writeFile(file, "# Netscape HTTP Cookie File\n" + lines.join('\n') + '\n');
+
+    return file;
+}
+
+export async function destroyYtDlpCookies(file) {
+    if (file) {
+        await unlink(file).catch(() => {});
+    }
 }

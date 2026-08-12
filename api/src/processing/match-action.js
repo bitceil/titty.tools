@@ -2,7 +2,6 @@ import createFilename from "./create-filename.js";
 
 import { createResponse } from "./request.js";
 import { audioIgnore } from "./service-config.js";
-import { createStream } from "../stream/manage.js";
 import { splitFilenameExtension } from "../misc/utils.js";
 import { convertLanguageCode } from "../misc/language-codes.js";
 
@@ -91,112 +90,33 @@ export default function({
                 url: Array.isArray(r.urls) ? r.urls[0] : r.urls,
                 isHLS: r.isHLS
             }
-            if (host === "reddit" && r.typeId === "redirect") {
-                responseType = "redirect";
-            }
             break;
 
         case "picker":
             responseType = "picker";
-            switch (host) {
-                case "instagram":
-                case "twitter":
-                case "snapchat":
-                case "bsky":
-                    params = { picker: r.picker };
-                    break;
-
-                case "tiktok":
-                    let audioStreamType = "audio";
-                    if (r.bestAudio === "mp3" && audioFormat === "best") {
-                        audioFormat = "mp3";
-                        audioStreamType = "proxy"
-                    }
-                    params = {
-                        picker: r.picker,
-                        url: createStream({
-                            service: "tiktok",
-                            type: audioStreamType,
-                            url: r.urls,
-                            headers: r.headers,
-                            filename: `${r.audioFilename}.${audioFormat}`,
-                            isAudioOnly: true,
-                            audioFormat,
-                            audioBitrate
-                        })
-                    }
-                    break;
-            }
+            params = { picker: r.picker };
             break;
 
         case "video":
-            switch (host) {
-                case "bilibili":
-                    params = { type: "merge" };
-                    break;
-
-                case "youtube":
-                    params = { type: r.type };
-                    break;
-
-                case "reddit":
-                    responseType = r.typeId;
-                    params = { type: r.type };
-                    break;
-
-                case "rutube":
-                case "vimeo":
-                    if (Array.isArray(r.urls)) {
-                        params = { type: "merge" };
-                    } else if (r.subtitles) {
-                        params = { type: "remux" };
-                    } else {
-                        responseType = "redirect";
-                    }
-                    break;
-
-                case "twitter":
-                    if (r.type === "remux") {
-                        params = { type: r.type };
-                    } else {
-                        responseType = "redirect";
-                    }
-                    break;
-
-                case "loom":
-                    if (r.subtitles) {
-                        params = { type: "remux" };
-                    } else {
-                        responseType = "redirect";
-                    }
-                    break;
-
-                case "vk":
-                case "tiktok":
-                    params = {
-                        type: r.subtitles ? "remux" : "proxy"
-                    };
-                    break;
-
-                case "ok":
-                case "newgrounds":
-                    params = { type: "proxy" };
-                    break;
-
-                case "facebook":
-                case "instagram":
-                case "tumblr":
-                case "pinterest":
-                case "streamable":
-                case "snapchat":
-                case "twitch":
-                    responseType = "redirect";
-                    break;
+            if (Array.isArray(r.urls)) {
+                // video + audio streams are merged, either server-side
+                // (tunnel) or in the browser (local processing)
+                params = { type: "merge" };
+            } else if (r.subtitles) {
+                // subtitles need to be muxed into the file
+                params = { type: "remux" };
+            } else if (r.headers || r.isHLS) {
+                // media needs custom headers or is hls, proxy it
+                responseType = "tunnel";
+                params = { type: r.isHLS ? "remux" : "proxy" };
+            } else {
+                // direct download
+                responseType = "redirect";
             }
             break;
 
         case "audio":
-            if (audioIgnore.has(host) || (host === "reddit" && r.typeId === "redirect")) {
+            if (audioIgnore.has(host)) {
                 return createResponse("error", {
                     code: "error.api.service.audio_not_supported"
                 })
@@ -222,7 +142,7 @@ export default function({
                 }
             }
 
-            if (r.isHLS || host === "vimeo") {
+            if (r.isHLS) {
                 copy = false;
                 processType = "audio";
             }

@@ -4,10 +4,11 @@ import { env } from "../config.js";
 import { runTest } from "../misc/run-test.js";
 import { loadJSON } from "../misc/load-from-fs.js";
 import { Red, Bright } from "../misc/console-text.js";
-import { setGlobalDispatcher, EnvHttpProxyAgent, ProxyAgent } from "undici";
+import { setGlobalDispatcher, EnvHttpProxyAgent } from "undici";
 import { randomizeCiphers } from "../misc/randomize-ciphers.js";
 
-import { services } from "../processing/service-config.js";
+// all extraction is handled by yt-dlp, so there's a single test set
+const testServices = ["ytdlp"];
 
 const getTestPath = service => path.join('./src/util/tests/', `./${service}.json`);
 const getTests = (service) => loadJSON(getTestPath(service));
@@ -17,7 +18,7 @@ const getTests = (service) => loadJSON(getTestPath(service));
 const finnicky = new Set(
     process.env.TEST_IGNORE_SERVICES
     ? process.env.TEST_IGNORE_SERVICES.split(',')
-    : ['bilibili', 'instagram', 'facebook', 'youtube', 'vk', 'twitter', 'reddit']
+    : ['ytdlp']
 );
 
 const runTestsFor = async (service) => {
@@ -81,9 +82,7 @@ randomizeCiphers();
 const action = process.argv[2];
 switch (action) {
     case "get-services":
-        const fromConfig = Object.keys(services);
-
-        const missingTests = fromConfig.filter(
+        const missingTests = testServices.filter(
             service => {
                 const tests = getTests(service);
                 return !tests || tests.length === 0
@@ -96,7 +95,7 @@ switch (action) {
             break;
         }
 
-        console.log(JSON.stringify(fromConfig));
+        console.log(JSON.stringify(testServices));
         break;
 
     case "run-tests-for":
@@ -112,10 +111,10 @@ switch (action) {
 
         break;
     default:
-        const maxHeaderLen = Object.keys(services).reduce((n, v) => v.length > n ? v.length : n, 0);
+        const maxHeaderLen = testServices.reduce((n, v) => v.length > n ? v.length : n, 0);
         const failCounters = {};
 
-        for (const service in services) {
+        for (const service of testServices) {
             printHeader(service, maxHeaderLen);
             const { fails, softFails } = await runTestsFor(service);
             failCounters[service] = fails;

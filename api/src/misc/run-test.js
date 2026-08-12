@@ -15,12 +15,16 @@ export async function runTest(url, params, expect) {
 
     const result = await match({
         host: parsed.host,
-        patternMatch: parsed.patternMatch,
+        url: parsed.url,
         params: normalized,
     });
 
+    const allowedStatuses = Array.isArray(expect.status)
+        ? expect.status
+        : [expect.status];
+
     let error = [];
-    if (expect.status !== result.body.status) {
+    if (!allowedStatuses.includes(result.body.status)) {
         const detail = `${expect.status} (expected) != ${result.body.status} (actual)`;
         error.push(`status mismatch: ${detail}`);
 

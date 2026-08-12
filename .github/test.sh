@@ -14,11 +14,11 @@ waitport() {
 test_api() {
     waitport 3000
     curl -m 3 http://localhost:3000/
-    API_RESPONSE=$(curl -m 10 http://localhost:3000/ \
+    API_RESPONSE=$(curl -m 30 http://localhost:3000/ \
          -X POST \
          -H "Accept: application/json" \
          -H "Content-Type: application/json" \
-         -d '{"url":"https://garfield-69.tumblr.com/post/696499862852780032","alwaysProxy":true}')
+         -d '{"url":"https://www.youtube.com/watch?v=dQw4w9WgXcQ","alwaysProxy":true}')
 
     echo "API_RESPONSE=$API_RESPONSE"
     STATUS=$(echo "$API_RESPONSE" | jq -r .status)

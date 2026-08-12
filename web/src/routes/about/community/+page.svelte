@@ -44,12 +44,6 @@
     </div>
 
     <div class="subtext support-note">
-        {$t("about.support.description.issue")}
-
-        {#if $locale !== "ru"}
-            {$t("about.support.description.help")}
-        {/if}
-
         {$t("about.support.description.best-effort")}
     </div>
 </div>

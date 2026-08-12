@@ -1,6 +1,6 @@
 import { request } from "undici";
 import { Readable } from "node:stream";
-import { closeRequest, getHeaders, pipe } from "./shared.js";
+import { closeRequest, getHeaders, pipe, wrapWithRedirect } from "./shared.js";
 import { handleHlsPlaylist, isHlsResponse, probeInternalHLSTunnel } from "./internal-hls.js";
 
 const CHUNK_SIZE = BigInt(8e6); // 8 MB
@@ -20,9 +20,8 @@ async function* readChunks(streamInfo, size) {
                 ...getHeaders(streamInfo.service),
                 Range: `bytes=${read}-${read + CHUNK_SIZE}`
             },
-            dispatcher: streamInfo.dispatcher,
+            dispatcher: wrapWithRedirect(streamInfo.dispatcher, 4),
             signal: streamInfo.controller.signal,
-            maxRedirections: 4
         });
 
         if (chunk.statusCode === 403 && chunksSinceTransplant >= 3 && streamInfo.transplant) {
@@ -76,7 +75,8 @@ async function handleChunkedStream(streamInfo, res) {
 
         const size = BigInt(req.headers.get('content-length'));
 
-        if (req.status !== 200 || !size) {
+        // some cdns (e.g. googlevideo) reply with 206 to plain HEAD requests
+        if (![200, 206].includes(req.status) || !size) {
             return cleanup();
         }
 
@@ -112,9 +112,8 @@ async function handleGenericStream(streamInfo, res) {
                 ...Object.fromEntries(streamInfo.headers),
                 host: undefined
             },
-            dispatcher: streamInfo.dispatcher,
+            dispatcher: wrapWithRedirect(streamInfo.dispatcher),
             signal,
-            maxRedirections: 16
         });
 
         res.status(fileResponse.statusCode);
@@ -176,12 +175,11 @@ export async function probeInternalTunnel(streamInfo) {
         const response = await request(streamInfo.url, {
             method: 'HEAD',
             headers,
-            dispatcher: streamInfo.dispatcher,
+            dispatcher: wrapWithRedirect(streamInfo.dispatcher),
             signal,
-            maxRedirections: 16
         });
 
-        if (response.statusCode !== 200)
+        if (response.statusCode !== 200 && response.statusCode !== 206)
             throw "status is not 200 OK";
 
         const size = +response.headers['content-length'];

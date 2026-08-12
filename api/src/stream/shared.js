@@ -1,7 +1,25 @@
+import { Agent, interceptors } from "undici";
+
 import { genericUserAgent } from "../config.js";
-import { vkClientAgent } from "../processing/services/vk.js";
 import { getInternalTunnelFromURL } from "./manage.js";
 import { probeInternalTunnel } from "./internal.js";
+
+const defaultDispatcher = new Agent();
+
+// undici v6 removed the maxRedirections option from request(),
+// redirects must be enabled through the redirect interceptor instead.
+// this wraps any dispatcher (including freebind's) with that interceptor.
+export function wrapWithRedirect(dispatcher, maxRedirections = 16) {
+    const base = dispatcher || defaultDispatcher;
+    return {
+        dispatch: interceptors.redirect({ maxRedirections })(
+            base.dispatch.bind(base)
+        ),
+    };
+}
+
+// used when fetching media files from vk's cdn
+const vkClientAgent = "com.vk.vkvideo.prod/1955 (iPhone, iOS 16.7.15, iPhone10,4, Scale/2.0) SAK/1.135";
 
 const defaultHeaders = {
     'user-agent': genericUserAgent
