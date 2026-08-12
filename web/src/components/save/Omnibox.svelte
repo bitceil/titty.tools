@@ -91,7 +91,7 @@
             // clear link prefill to avoid extra effects
             linkPrefill = "";
 
-            savingHandler({ url: $link });
+            handleDownload($link);
         }
     });
 
@@ -174,12 +174,8 @@
         if (linkMatch) {
             $link = linkMatch[0].split('，')[0];
 
-            if (isPlaylistUrl($link)) {
-                return startPlaylist($link);
-            }
-
             await tick(); // wait for button to render
-            savingHandler({ url: $link });
+            handleDownload($link);
         }
     };
 
