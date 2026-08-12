@@ -15,7 +15,7 @@
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import Tit from "$components/misc/Tit.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
     import SavingTutorial from "$components/dialog/SavingTutorial.svelte";
     import VerticalActionButton from "$components/buttons/VerticalActionButton.svelte";
@@ -47,8 +47,8 @@
 
 <DialogContainer {id} {dismissable} bind:close>
     <div class="dialog-body popup-body">
-        <div class="meowbalt-container">
-            <Meowbalt emotion="question" />
+        <div class="mascot-container">
+            <Tit emotion="question" />
         </div>
 
         <div class="dialog-inner-container">
@@ -161,11 +161,11 @@
         margin: calc(var(--padding) / 2);
     }
 
-    .meowbalt-container {
+    .mascot-container {
         position: absolute;
         top: -126px;
         right: 0;
-        /* simulate meowbalt being behind the popup */
+        /* simulate the mascot being behind the popup */
         clip-path: inset(0px 0px 14px 0px);
     }
 

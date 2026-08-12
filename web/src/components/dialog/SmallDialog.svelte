@@ -1,18 +1,18 @@
 <script lang="ts">
     import { hapticError } from "$lib/haptics";
     import type { Optional } from "$lib/types/generic";
-    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+    import type { TitEmotions } from "$lib/types/tit";
     import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import Tit from "$components/misc/Tit.svelte";
     import DialogButtons from "$components/dialog/DialogButtons.svelte";
 
     import IconAlertTriangle from "@tabler/icons-svelte/IconAlertTriangle.svelte";
 
     export let id: string;
-    export let meowbalt: Optional<MeowbaltEmotions> = undefined;
+    export let mascot: Optional<TitEmotions> = undefined;
     export let icon: Optional<SmallDialogIcons> = undefined;
     export let title = "";
     export let bodyText = "";
@@ -23,8 +23,8 @@
 
     let close: () => void;
 
-    // error meowbalt art is not used in dialogs unless it's an error
-    if (meowbalt === "error") {
+    // error mascot art is not used in dialogs unless it's an error
+    if (mascot === "error") {
         setTimeout(() => {
             hapticError();
         }, 150)
@@ -34,13 +34,13 @@
 <DialogContainer {id} {dismissable} bind:close>
     <div
         class="dialog-body small-dialog"
-        class:meowbalt-visible={meowbalt}
+        class:mascot-visible={mascot}
         class:align-left={leftAligned}
     >
-        {#if meowbalt}
-            <div class="meowbalt-container">
-                <Meowbalt
-                    emotion={meowbalt}
+        {#if mascot}
+            <div class="mascot-container">
+                <Tit
+                    emotion={mascot}
                     forceLoaded={id === 'nojs-dialog'}
                 />
             </div>
@@ -92,11 +92,11 @@
         margin: calc(var(--padding) / 2);
     }
 
-    .small-dialog.meowbalt-visible {
+    .small-dialog.mascot-visible {
         padding-top: calc(var(--padding) * 4);
     }
 
-    .meowbalt-container {
+    .mascot-container {
         position: absolute;
         top: -120px;
     }

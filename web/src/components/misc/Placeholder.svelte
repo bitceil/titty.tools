@@ -1,11 +1,11 @@
 <script>
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import Tit from "$components/misc/Tit.svelte";
 
     export let pageName;
 </script>
 
 <div id="placeholder-container" class="center-column-container">
-    <Meowbalt emotion="smile" />
+    <Tit emotion="smile" />
     <div tabindex="-1" data-first-focus>
         {`${pageName} page is not ready yet!`}
     </div>

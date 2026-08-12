@@ -1,6 +1,4 @@
 <script lang="ts">
-    import locale from "$lib/i18n/locale";
-
     import { contacts } from "$lib/env";
     import { t } from "$lib/i18n/translations";
 
@@ -13,34 +11,19 @@
     <div
         id="support-buttons"
         bind:offsetWidth={buttonContainerWidth}
-
         class="two"
         class:one={buttonContainerWidth < 500}
     >
         <AboutSupport
             platform="github"
+            title={$t("about.support.title.original")}
             externalLink={contacts.github}
         />
-
-        {#if $locale === "ru"}
-            <AboutSupport
-                platform="telegram"
-                externalLink={contacts.telegram_ru}
-            />
-        {:else}
-            <AboutSupport
-                platform="discord"
-                externalLink={contacts.discord}
-            />
-            <AboutSupport
-                platform="twitter"
-                externalLink={contacts.twitter}
-            />
-            <AboutSupport
-                platform="bluesky"
-                externalLink={contacts.bluesky}
-            />
-        {/if}
+        <AboutSupport
+            platform="fork"
+            title={$t("about.support.title.fork")}
+            externalLink={contacts.fork}
+        />
     </div>
 
     <div class="subtext support-note">

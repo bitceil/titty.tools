@@ -5,36 +5,21 @@
     import IconExternalLink from "@tabler/icons-svelte/IconExternalLink.svelte";
 
     import IconBrandGithub from "@tabler/icons-svelte/IconBrandGithub.svelte";
-    import IconBrandTwitter from "@tabler/icons-svelte/IconBrandTwitter.svelte";
-    import IconBrandDiscord from "@tabler/icons-svelte/IconBrandDiscord.svelte";
-    import IconBrandTelegram from "@tabler/icons-svelte/IconBrandTelegram.svelte";
-    import IconBrandBluesky from "@tabler/icons-svelte/IconBrandBluesky.svelte";
 
     const platformIcons = {
         github: {
             icon: IconBrandGithub,
             color: "#8842cd",
         },
-        discord: {
-            icon: IconBrandDiscord,
-            color: "#5865f2",
-        },
-        twitter: {
-            icon: IconBrandTwitter,
-            color: "#1da1f2",
-        },
-        telegram: {
-            icon: IconBrandTelegram,
-            color: "#1c9efb",
-        },
-        bluesky: {
-            icon: IconBrandBluesky,
-            color: "#0a78ff",
+        fork: {
+            icon: IconBrandGithub,
+            color: "#238636",
         },
     };
 
     export let platform: keyof typeof platformIcons;
     export let externalLink: string;
+    export let title: string = "";
 </script>
 
 <button
@@ -55,7 +40,7 @@
             <svelte:component this={platformIcons[platform].icon} />
         </div>
         <div class="support-card-title">
-            {platform}
+            {title || platform}
             <IconExternalLink />
         </div>
     </div>

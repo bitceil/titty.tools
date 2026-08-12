@@ -1,9 +1,8 @@
 <script lang="ts">
-    import { t } from "$lib/i18n/translations";
-    import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+    import type { TitEmotions } from "$lib/types/tit";
 
     type Props = {
-        emotion: MeowbaltEmotions;
+        emotion: TitEmotions;
         forceLoaded?: boolean;
     };
 
@@ -13,17 +12,17 @@
 </script>
 
 <img
-    class="meowbalt {emotion}"
+    class="tit {emotion}"
     class:loaded={loaded || forceLoaded}
     onload={() => (loaded = true)}
-    src="/meowbalt/{emotion}.png"
+    src="/tit/{emotion}.png"
     height="152"
-    alt={$t("general.meowbalt")}
+    alt=""
     aria-hidden="true"
 />
 
 <style>
-    .meowbalt {
+    .tit {
         display: block;
         margin: 0;
         object-fit: cover;
@@ -31,7 +30,7 @@
         transition: opacity 0.15s;
     }
 
-    .meowbalt.loaded {
+    .tit.loaded {
         opacity: 1;
     }
 

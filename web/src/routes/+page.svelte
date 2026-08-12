@@ -2,7 +2,7 @@
     import { t } from "$lib/i18n/translations";
 
     import Omnibox from "$components/save/Omnibox.svelte";
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import Tit from "$components/misc/Tit.svelte";
     import SupportedServices from "$components/save/SupportedServices.svelte";
 </script>
 
@@ -18,7 +18,7 @@
         tabindex="-1"
         data-first-focus
     >
-        <Meowbalt emotion="smile" />
+        <Tit emotion="smile" />
         <Omnibox />
     </main>
     <div id="terms-note">

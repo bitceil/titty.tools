@@ -29,6 +29,7 @@ const contacts = {
     github: "https://github.com/imputnet/cobalt",
     bluesky: "https://bsky.app/profile/cobalt.tools",
     telegram_ru: "https://t.me/justusecobalt_ru",
+    fork: "https://github.com/bitceil/titty.tools",
 }
 
 const partners = {

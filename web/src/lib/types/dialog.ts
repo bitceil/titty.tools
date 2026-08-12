@@ -1,5 +1,5 @@
 import type { CobaltFileUrlType } from "$lib/types/api";
-import type { MeowbaltEmotions } from "$lib/types/meowbalt";
+import type { TitEmotions } from "$lib/types/tit";
 
 export type DialogButton = {
     text: string,
@@ -25,7 +25,7 @@ type Dialog = {
 
 type SmallDialog = Dialog & {
     type: "small",
-    meowbalt?: MeowbaltEmotions,
+    mascot?: TitEmotions,
     icon?: SmallDialogIcons,
     title?: string,
     bodyText?: string,

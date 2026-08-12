@@ -4,7 +4,7 @@
     import { t } from "$lib/i18n/translations";
 
     import Imput from "$components/icons/Imput.svelte";
-    import Meowbalt from "$components/misc/Meowbalt.svelte";
+    import Tit from "$components/misc/Tit.svelte";
 </script>
 
 <header id="banner">
@@ -24,7 +24,7 @@
             <div id="banner-subtitle">{$t("donate.banner.subtitle")}</div>
         </div>
         <div id="banner-right">
-            <Meowbalt emotion="fast" />
+            <Tit emotion="smile" />
         </div>
     </div>
     <div id="banner-background">
@@ -86,7 +86,7 @@
         margin: -6px -2.5px;
     }
 
-    #banner-right :global(.meowbalt) {
+    #banner-right :global(.tit) {
         height: 330px;
     }
 
@@ -170,13 +170,13 @@
     }
 
     @media screen and (max-width: 990px) {
-        #banner-right :global(.meowbalt) {
+        #banner-right :global(.tit) {
             height: 300px;
         }
     }
 
     @media screen and (max-width: 960px) {
-        #banner-right :global(.meowbalt) {
+        #banner-right :global(.tit) {
             height: 280px;
         }
 
@@ -186,7 +186,7 @@
     }
 
     @media screen and (max-width: 930px) {
-        #banner-right :global(.meowbalt) {
+        #banner-right :global(.tit) {
             height: 260px;
         }
 
@@ -196,7 +196,7 @@
     }
 
     @media screen and (max-width: 900px) {
-        #banner-right :global(.meowbalt) {
+        #banner-right :global(.tit) {
             height: 230px;
         }
 

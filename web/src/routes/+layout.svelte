@@ -217,8 +217,8 @@
         height: 0;
         position: absolute;
         z-index: -10;
-        content: url(/meowbalt/smile.png) url(/meowbalt/error.png)
-            url(/meowbalt/question.png) url(/meowbalt/think.png);
+        content: url(/tit/smile.png) url(/tit/error.png)
+            url(/tit/question.png) url(/tit/think.png);
 
         font-family: "Noto Sans Mono";
         font-size: 0;
