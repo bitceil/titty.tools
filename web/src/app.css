@@ -74,6 +74,8 @@
 
     --switcher-padding: 3.5px;
 
+    --font-family: "IBM Plex Mono", monospace;
+
     /* used for fading the tab bar on scroll */
     --sidebar-mobile-gradient: linear-gradient(
         90deg,
@@ -179,6 +181,14 @@
     --dialog-backdrop: rgba(0, 0, 0, 0.5);
 }
 
+[data-font="ndot55"] {
+    --font-family: "Ndot 55", "IBM Plex Mono", monospace;
+}
+
+[data-font="ndot57"] {
+    --font-family: "Ndot 57", "IBM Plex Mono", monospace;
+}
+
 html,
 body {
     margin: 0;
@@ -188,7 +198,7 @@ body {
 }
 
 * {
-    font-family: "IBM Plex Mono", monospace;
+    font-family: var(--font-family);
     user-select: none;
     scrollbar-width: none;
     -webkit-user-select: none;
@@ -366,7 +376,7 @@ h6 {
 .long-text *:not(h1, h2, h3, h4, h5, h6) {
     line-height: 1.8;
     font-size: 14.5px;
-    font-family: "IBM Plex Mono", monospace;
+    font-family: var(--font-family);
     user-select: text;
     -webkit-user-select: text;
 }

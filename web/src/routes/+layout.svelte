@@ -1,6 +1,7 @@
 <script lang="ts">
     import "../app.css";
     import "../fonts/noto-mono-cobalt.css";
+    import "../fonts/ndot.css";
 
     import "@fontsource/ibm-plex-mono/400.css";
     import "@fontsource/ibm-plex-mono/400-italic.css";
@@ -94,6 +95,7 @@
 <div
     style="display: contents"
     data-theme={browser ? $currentTheme : undefined}
+    data-font={$settings.appearance.font}
     lang={$locale}
 >
     {#if preloadAssets}

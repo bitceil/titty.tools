@@ -2,7 +2,7 @@
     import settings from "$lib/state/settings";
 
     import { device } from "$lib/device";
-    import { themeOptions } from "$lib/types/settings";
+    import { fontOptions, themeOptions } from "$lib/types/settings";
     import { t, locales } from "$lib/i18n/translations";
 
     import Switcher from "$components/buttons/Switcher.svelte";
@@ -30,6 +30,20 @@
                 settingValue={value}
             >
                 {$t(`settings.theme.${value}`)}
+            </SettingsButton>
+        {/each}
+    </Switcher>
+</SettingsCategory>
+
+<SettingsCategory sectionId="font" title={$t("settings.font")}>
+    <Switcher big={true} description={$t("settings.font.description")}>
+        {#each fontOptions as value}
+            <SettingsButton
+                settingContext="appearance"
+                settingId="font"
+                settingValue={value}
+            >
+                {$t(`settings.font.${value}`)}
             </SettingsButton>
         {/each}
     </Switcher>

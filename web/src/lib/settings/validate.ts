@@ -3,6 +3,7 @@ import defaultSettings from '$lib/settings/defaults';
 import {
     downloadModeOptions,
     filenameStyleOptions,
+    fontOptions,
     savingMethodOptions,
     themeOptions,
     videoQualityOptions,
@@ -74,8 +75,9 @@ export function validateSettings(settings: PartialSettings) {
 
     return (
         validateTypes(settings)
-        && validateLiterals([
+        &&        validateLiterals([
             [ settings?.appearance?.theme      , themeOptions ],
+            [ settings?.appearance?.font       , fontOptions ],
             [ settings?.save?.downloadMode     , downloadModeOptions ],
             [ settings?.save?.filenameStyle    , filenameStyleOptions ],
             [ settings?.save?.videoQuality     , videoQualityOptions ],

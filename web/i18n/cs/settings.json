@@ -16,6 +16,12 @@
     "theme.dark": "tmavé",
     "theme.description": "automatické téma přepíná mezi světlým a tmavým motivem podle režimu zobrazení tvého zařízení.",
 
+    "font": "písmo",
+    "font.description": "mění písmo používané v celé aplikaci. výchozí písmo funguje všude, ostatní nemusí podporovat všechny znaky.",
+    "font.default": "výchozí",
+    "font.ndot55": "Ndot 55",
+    "font.ndot57": "Ndot 57",
+
     "video.quality": "kvalita videa",
     "video.quality.max": "8k+",
     "video.quality.2160": "4k",
