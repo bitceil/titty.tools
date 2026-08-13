@@ -61,6 +61,15 @@
         }
     },
     {
+        "name": "twitter video (no codec info in formats)",
+        "url": "https://x.com/GoogleDeepMind/status/2087541213284946191?s=20",
+        "params": {},
+        "expected": {
+            "code": 200,
+            "status": ["tunnel", "redirect", "local-processing"]
+        }
+    },
+    {
         "name": "inexistent video",
         "url": "https://www.youtube.com/watch?v=gnjuHYWGEW",
         "params": {},

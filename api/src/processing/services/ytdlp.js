@@ -161,14 +161,34 @@ const proxyEnv = env.externalProxy
 const needsProxy = (headers) => headers
     && Object.keys(headers).some(h => !allowedHeaderKeys.has(h.toLowerCase()));
 
-const isAudioOnlyFormat = (f) => f.acodec && f.acodec !== "none"
-    && (!f.vcodec || f.vcodec === "none");
+// some extractors (notably twitter) report formats without any codec
+// info: hls audio streams come back with vcodec "none" and no acodec,
+// and progressive mp4s come back with no vcodec/acodec at all. yt-dlp
+// itself treats a missing codec as "unknown, stream present" (its -F
+// output shows "unknown" for these), so we mirror that here instead of
+// dropping the formats entirely.
+
+// a direct https format with a resolution but no codec info is a single
+// video+audio file (progressive mp4)
+const isProgressiveFormat = (f) => !f.vcodec && !f.acodec
+    && (f.height || f.width);
+
+// audio streams without an acodec can still be identified by their
+// resolution/format id/bitrate
+const looksLikeAudioOnly = (f) => /audio only/i.test(f.resolution || "")
+    || /audio/i.test(f.format_id || "")
+    || f.abr > 0;
+
+const isAudioOnlyFormat = (f) => (!f.vcodec || f.vcodec === "none")
+    && !isProgressiveFormat(f)
+    && ((f.acodec && f.acodec !== "none") || looksLikeAudioOnly(f));
 
 const isVideoOnlyFormat = (f) => f.vcodec && f.vcodec !== "none"
     && (!f.acodec || f.acodec === "none");
 
-const isCombinedFormat = (f) => f.vcodec && f.vcodec !== "none"
-    && f.acodec && f.acodec !== "none";
+const isCombinedFormat = (f) => (f.vcodec && f.vcodec !== "none"
+    && f.acodec && f.acodec !== "none")
+    || isProgressiveFormat(f);
 
 const pickAudio = (formats) => {
     const prefExt = ["m4a", "mp4", "mp3"];
@@ -504,7 +524,9 @@ export default async function ({
         };
     }
 
-    const videoFormats = formats.filter(f => f.vcodec && f.vcodec !== "none");
+    const videoFormats = formats.filter(f =>
+        (f.vcodec && f.vcodec !== "none") || isProgressiveFormat(f)
+    );
 
     const height = videoQuality === "max" ? undefined : Number(videoQuality);
     const codec = youtubeVideoCodec;
