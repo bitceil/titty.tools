@@ -34,6 +34,10 @@ místo ručně psaného scraperu pro každý web titty.tools přenechává extra
 
 stahování videa často znamená načtení oddělených video a audio proudů a jejich sloučení. titty.tools to umí sloučit lokálně, ve vašem prohlížeči, pomocí WebAssembly ffmpeg (libav). vaše média se po prvotním zpracování odkazu serveru vůbec nedotknou.
 
+## Převod souborů probíhá také ve vašem prohlížeči
+
+karta převod mění místní soubory na jiné formáty, aniž byste cokoli nahrávali. přetáhněte soubor, vyberte výstupní formát a převod proběhne na vašem zařízení pomocí ffmpeg, imagemagick a pandoc přeložených do WebAssembly. video, audio, obrázky i dokumenty jsou pokryté a vaše soubory nikdy neopustí váš počítač.
+
 ## Co zůstává stejné
 
 vše ostatní je zděděno z cobaltu: stejné čisté rozhraní, výchozí nastavení soukromí, žádné reklamy, žádné trackery a žádný účet.

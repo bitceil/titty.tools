@@ -31,10 +31,10 @@
     <div id="sidebar-tabs" role="tablist">
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
+            <SidebarTab name="convert" path="/convert" icon={IconArrowsExchange} />
             {#if !$settings.appearance.hideRemuxTab}
                 <SidebarTab name="remux" path="/remux" icon={IconRepeat} />
             {/if}
-            <SidebarTab name="convert" path="/convert" icon={IconArrowsExchange} />
         </div>
         <div id="sidebar-info" class="sidebar-inner-container">
             <SidebarTab name="settings" path={settingsLink} icon={IconSettings} />

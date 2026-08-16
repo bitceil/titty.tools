@@ -34,6 +34,10 @@ instead of one hand-written scraper per site, titty.tools delegates extraction t
 
 downloading a video often means fetching separate video and audio streams and merging them. titty.tools can do that merge locally, in your browser, using WebAssembly ffmpeg (libav). your media never touches the server after the initial link processing.
 
+## file conversion happens in your browser too
+
+the convert tab turns local files into other formats without uploading anything. drop a file, pick an output format, and it's converted on your device using ffmpeg, imagemagick, and pandoc compiled to WebAssembly. video, audio, images, and documents are all covered, and your files never leave your computer.
+
 ## what's the same
 
 everything else is inherited from cobalt: the same clean interface, privacy-first defaults, no ads, no trackers, and no account required.
