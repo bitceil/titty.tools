@@ -1,5 +1,6 @@
 import cors from "cors";
 import http from "node:http";
+import os from "node:os";
 import rateLimit from "express-rate-limit";
 import { setGlobalDispatcher, EnvHttpProxyAgent } from "undici";
 import { getCommit, getBranch, getRemote, getVersion } from "@imput/version-info";
@@ -346,6 +347,11 @@ export const runAPI = async (express, app, __dirname, isPrimary = true) => {
             status: "ok",
             ...info,
             ytdlp: await getYtDlpVersion(),
+            cpu: {
+                // 1, 5, and 15 minute load averages; compare against cores
+                load: os.loadavg(),
+                cores: os.cpus().length,
+            },
         });
     })
 

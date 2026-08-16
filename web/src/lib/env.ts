@@ -19,6 +19,10 @@ const variables = {
     PLAUSIBLE_HOST: getEnv('PLAUSIBLE_HOST'),
     PLAUSIBLE_ENABLED: getEnv('HOST') && getEnv('PLAUSIBLE_HOST'),
     DEFAULT_API: getEnv('DEFAULT_API'),
+    FALLBACK_APIS: (getEnv('FALLBACK_APIS') ?? 'https://api2.titty.tools/')
+        .split(',')
+        .map(s => s.trim())
+        .filter(Boolean),
     ENABLE_WEBCODECS: getEnvBool('ENABLE_WEBCODECS'),
     ENABLE_DEPRECATED_YOUTUBE_HLS: getEnvBool('ENABLE_DEPRECATED_YOUTUBE_HLS'),
 }

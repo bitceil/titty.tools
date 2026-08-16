@@ -2,6 +2,7 @@ import { browser } from "$app/environment";
 
 import { get } from "svelte/store";
 import { currentApiURL } from "$lib/api/api-url";
+import { selectApi } from "$lib/api/api-probe";
 import { turnstileCreated, turnstileEnabled, turnstileSolved } from "$lib/state/turnstile";
 import cachedInfo from "$lib/state/server-info";
 import type { CobaltServerInfoResponse, CobaltErrorResponse, CobaltServerInfo } from "$lib/types/api";
@@ -41,6 +42,9 @@ const reloadIfTurnstileDisabled = () => {
 }
 
 export const getServerInfo = async () => {
+    // pick the best api instance (default vs fallbacks) before talking to it
+    await selectApi();
+
     const cache = get(cachedInfo);
 
     if (cache && cache.origin === currentApiURL()) {
