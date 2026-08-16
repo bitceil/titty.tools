@@ -59,31 +59,45 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
             break;
 
         case "magick":
-            if (workerArgs.files?.[0] && workerArgs.output) {
-                await runMagickWorker(
-                    workerId,
-                    parentId,
-                    workerArgs.files[0],
-                    workerArgs.from,
-                    workerArgs.output,
-                );
-            } else {
-                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+        case "pandoc": {
+            if (workerArgs.files) {
+                files = [...workerArgs.files];
             }
-            break;
 
-        case "pandoc":
-            if (workerArgs.files?.[0] && workerArgs.output) {
-                await runPandocWorker(
-                    workerId,
-                    parentId,
-                    workerArgs.files[0],
-                    workerArgs.from,
-                    workerArgs.output,
-                );
+            const parent = get(queue)[parentId];
+            if (parent?.state === "running" && dependsOn) {
+                for (const workerId of dependsOn) {
+                    const file = parent.pipelineResults[workerId];
+                    if (!file) {
+                        return itemError(parentId, workerId, "queue.ffmpeg.no_args");
+                    }
+
+                    files.push(file);
+                }
+            }
+
+            if (files[0] && workerArgs.output) {
+                if (worker === "magick") {
+                    await runMagickWorker(
+                        workerId,
+                        parentId,
+                        files[0],
+                        workerArgs.from,
+                        workerArgs.output,
+                    );
+                } else {
+                    await runPandocWorker(
+                        workerId,
+                        parentId,
+                        files[0],
+                        workerArgs.from,
+                        workerArgs.output,
+                    );
+                }
             } else {
                 itemError(parentId, workerId, "queue.ffmpeg.no_args");
             }
             break;
+        }
     }
 }

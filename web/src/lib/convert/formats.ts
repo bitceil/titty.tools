@@ -407,10 +407,17 @@ export const convertFormats: ConvertFormat[] = [
 ];
 
 // image extensions libav.js can decode; everything else with an image
-// category is magick-only and gets the full magick output set
+// category can only be read by magick
 const ffmpegReadableImageExts = new Set([
     "png", "jpg", "jpeg", "webp", "bmp", "tiff", "tif", "avif", "gif",
 ]);
+
+// can ffmpeg decode this file directly? (video/audio, or a common raster)
+export const isFFmpegReadableImage = (file: File) => {
+    const ext = file.name.split(".").pop()?.toLowerCase() || "";
+    return ffmpegReadableImageExts.has(ext)
+        || ["image/png", "image/jpeg", "image/webp", "image/bmp", "image/tiff", "image/gif", "image/avif"].includes(file.type);
+}
 
 // extensions commonly used for files that don't carry a mime type,
 // mapped to the category they belong to
@@ -468,58 +475,50 @@ export const getFileCategory = (file: File): ConvertCategory | undefined => {
     }
 }
 
-// what a file can be converted into depends on what it is:
-// videos can become other videos, audio tracks, or still images;
-// audio stays audio; images stay images (plus print/vector outputs);
-// documents become other documents
-const getFormatsForCategory = (category: ConvertCategory): ConvertFormat[] => {
-    switch (category) {
-        case "video":
-            return convertFormats.filter(f =>
-                f.engine === "ffmpeg"
-                && ["video", "audio", "image"].includes(f.category)
-            );
-        case "audio":
-            return convertFormats.filter(f =>
-                f.engine === "ffmpeg" && f.category === "audio"
-            );
-        case "document":
-            return convertFormats.filter(f =>
-                f.engine === "pandoc" && f.category === "document"
-            );
-        case "image":
-            // ffmpeg-readable inputs get ffmpeg's raster outputs plus
-            // magick's unique ones; magick-only inputs (psd, raws, ...)
-            // get the full magick set including the common rasters
-            return convertFormats.filter(f => {
-                if (f.category !== "image") return false;
-                if (f.engine === "magick") return !f.core;
-                return true;
-            });
-    }
-}
-
-const getFormatsForImage = (file: File): ConvertFormat[] => {
-    const ext = file.name.split(".").pop()?.toLowerCase() || "";
-    const ffmpegReadable = ffmpegReadableImageExts.has(ext)
-        || ["image/png", "image/jpeg", "image/webp", "image/bmp", "image/tiff", "image/gif", "image/avif"].includes(file.type);
-
-    return convertFormats.filter(f => {
-        if (f.category !== "image") return false;
-        if (f.engine === "magick") return ffmpegReadable ? !f.core : true;
-        return ffmpegReadable;
-    });
-}
-
+// what a file can be converted into depends on what it is. whenever an
+// output engine can't read the input directly, the conversion is chained
+// through png: ffmpeg extracts a frame (video -> magick outputs), or
+// magick rasterizes first (magick-only images -> ffmpeg video outputs).
 export const getFormatsForInput = (file: File): ConvertFormat[] => {
     const category = getFileCategory(file);
     if (!category) return [];
 
-    if (category === "image") {
-        return getFormatsForImage(file);
-    }
+    switch (category) {
+        case "video":
+            // ffmpeg handles video/audio/image directly; magick's unique
+            // image outputs (psd, jxl, svg, pdf, ...) via an extracted frame
+            return convertFormats.filter(f =>
+                (f.engine === "ffmpeg"
+                    && ["video", "audio", "image"].includes(f.category))
+                || (f.engine === "magick" && f.category === "image" && !f.core)
+            );
 
-    return getFormatsForCategory(category);
+        case "audio":
+            return convertFormats.filter(f =>
+                f.engine === "ffmpeg" && f.category === "audio"
+            );
+
+        case "document":
+            return convertFormats.filter(f =>
+                f.engine === "pandoc" && f.category === "document"
+            );
+
+        case "image": {
+            const ffmpegReadable = isFFmpegReadableImage(file);
+
+            return convertFormats.filter(f => {
+                // image -> video via ffmpeg (direct, or magick rasterizes first)
+                if (f.category === "video") return true;
+                if (f.category === "audio" || f.category === "document") return false;
+
+                // image outputs: ffmpeg's rasters only when it can read the
+                // input; magick's unique ones always; magick's core rasters
+                // only when ffmpeg can't (no duplicate buttons)
+                if (f.engine === "magick") return ffmpegReadable ? !f.core : true;
+                return ffmpegReadable;
+            });
+        }
+    }
 }
 
 // formats that every one of the given files can be converted to

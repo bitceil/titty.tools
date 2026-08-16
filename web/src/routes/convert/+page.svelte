@@ -69,7 +69,7 @@
                     bind:draggedOver
                     bind:files
                     onImport={onImport}
-                    showAcceptList={false}
+                    subtext={$t("convert.receiver.hint")}
                     acceptTypes={["video/*", "audio/*", "image/*"]}
                     acceptExtensions={[
                         // video
@@ -202,32 +202,16 @@
             </div>
 
             {#if formats.length}
-                {#each ["ffmpeg", "magick", "pandoc"] as engine (engine)}
-                    {@const engineFormats = formats.filter(f => f.engine === engine)}
-                    {#if engineFormats.length}
-                        <div class="picker-engine">
-                            <div class="picker-engine-name">
-                                {#if engine === "magick"}
-                                    {$t("convert.engine.imagemagick")}
-                                {:else if engine === "pandoc"}
-                                    {$t("convert.engine.pandoc")}
-                                {:else}
-                                    {$t("convert.engine.ffmpeg")}
-                                {/if}
-                            </div>
-                            <div class="picker-formats" role="group" aria-label={$t("convert.picker.formats")}>
-                                {#each engineFormats as format (format.ext + (format.label ?? ""))}
-                                    <button
-                                        class="button format-button"
-                                        onclick={() => convert(format)}
-                                    >
-                                        {format.label || format.ext.toUpperCase()}
-                                    </button>
-                                {/each}
-                            </div>
-                        </div>
-                    {/if}
-                {/each}
+                <div class="picker-formats" role="group" aria-label={$t("convert.picker.formats")}>
+                    {#each formats as format (format.ext + (format.label ?? ""))}
+                        <button
+                            class="button format-button"
+                            onclick={() => convert(format)}
+                        >
+                            {format.label || format.ext.toUpperCase()}
+                        </button>
+                    {/each}
+                </div>
             {:else}
                 <div class="picker-error">{$t("convert.picker.no_formats")}</div>
             {/if}
@@ -416,21 +400,6 @@
         font-size: 13px;
         color: var(--gray);
         line-break: anywhere;
-    }
-
-    .picker-engine {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .picker-engine-name {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--gray);
     }
 
     .picker-formats {

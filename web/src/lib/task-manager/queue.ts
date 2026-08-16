@@ -6,7 +6,7 @@ import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 import { uuid } from "$lib/util";
 
-import { getConvertArgs, getFileCategory, type ConvertFormat } from "$lib/convert/formats";
+import { getConvertArgs, getFileCategory, isFFmpegReadableImage, type ConvertFormat } from "$lib/convert/formats";
 
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
@@ -25,26 +25,17 @@ export const createConvertPipeline = (file: File, format: ConvertFormat) => {
     const parentId = uuid();
     const baseName = file.name.replace(/\.[^./]+$/, "") || "converted";
     const inputExt = file.name.split(".").pop()?.toLowerCase();
+    const inputCategory = getFileCategory(file);
 
     const output = {
         type: format.mime,
         format: format.ext,
     };
 
-    let worker: CobaltPipelineItem;
-    if (format.engine === "magick") {
-        worker = {
-            worker: "magick",
-            workerId: uuid(),
-            parentId,
-            workerArgs: {
-                files: [file],
-                from: inputExt,
-                output,
-            },
-        };
-    } else if (format.engine === "pandoc") {
-        worker = {
+    let pipeline: CobaltPipelineItem[];
+
+    if (format.engine === "pandoc") {
+        pipeline = [{
             worker: "pandoc",
             workerId: uuid(),
             parentId,
@@ -53,21 +44,91 @@ export const createConvertPipeline = (file: File, format: ConvertFormat) => {
                 from: inputExt,
                 output,
             },
-        };
-    } else {
-        worker = {
-            worker: "encode",
-            workerId: uuid(),
-            parentId,
-            workerArgs: {
-                files: [file],
-                ffargs: getConvertArgs(format, getFileCategory(file) || "video"),
-                output,
-            },
-        };
-    }
+        }];
+    } else if (format.engine === "magick") {
+        if (inputCategory === "image") {
+            // magick reads the image directly
+            pipeline = [{
+                worker: "magick",
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    from: inputExt,
+                    output,
+                },
+            }];
+        } else {
+            // video/audio input: ffmpeg extracts a frame as png, then
+            // magick converts that frame to the target format
+            const extract = {
+                worker: "encode" as const,
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    ffargs: ["-an", "-frames:v", "1", "-c:v", "png"],
+                    output: { type: "image/png", format: "png" },
+                },
+            };
 
-    const pipeline: CobaltPipelineItem[] = [worker];
+            pipeline = [
+                extract,
+                {
+                    worker: "magick",
+                    workerId: uuid(),
+                    parentId,
+                    dependsOn: [extract.workerId],
+                    workerArgs: {
+                        files: [],
+                        from: "png",
+                        output,
+                    },
+                },
+            ];
+        }
+    } else {
+        if (inputCategory === "image" && !isFFmpegReadableImage(file)) {
+            // magick-only image (psd, raw, ...): magick rasterizes to png,
+            // then ffmpeg encodes the video
+            const rasterize = {
+                worker: "magick" as const,
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    from: inputExt,
+                    output: { type: "image/png", format: "png" },
+                },
+            };
+
+            pipeline = [
+                rasterize,
+                {
+                    worker: "encode",
+                    workerId: uuid(),
+                    parentId,
+                    dependsOn: [rasterize.workerId],
+                    workerArgs: {
+                        files: [],
+                        ffargs: getConvertArgs(format, inputCategory || "video"),
+                        output,
+                    },
+                },
+            ];
+        } else {
+            pipeline = [{
+                worker: "encode",
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    ffargs: getConvertArgs(format, inputCategory || "video"),
+                    output,
+                },
+            }];
+        }
+    }
 
     addItem({
         id: parentId,
