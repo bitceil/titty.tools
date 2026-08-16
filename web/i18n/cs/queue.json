@@ -9,8 +9,12 @@
     "state.starting.fetch": "spouštění stahování",
     "state.starting.remux": "spouštění remuxování",
     "state.starting.encode": "spouštění překódování",
+    "state.starting.magick": "spouštění převodu",
+    "state.starting.pandoc": "spouštění převodu",
 
     "state.running.remux": "remuxování",
     "state.running.fetch": "stahování",
-    "state.running.encode": "překódování"
+    "state.running.encode": "překódování",
+    "state.running.magick": "převod",
+    "state.running.pandoc": "převod"
 }

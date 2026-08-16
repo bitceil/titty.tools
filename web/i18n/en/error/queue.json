@@ -18,5 +18,6 @@
     "ffmpeg.crashed": "ffmpeg worker crashed, see console for details",
     "ffmpeg.no_render": "ffmpeg render is empty, something very odd happened",
     "ffmpeg.no_args": "ffmpeg worker didn't get required arguments",
-    "ffmpeg.no_audio_channel": "this video has no audio track, nothing to do"
+    "ffmpeg.no_audio_channel": "this video has no audio track, nothing to do",
+    "ffmpeg.no_output_format": "this output format isn't supported by the conversion engine"
 }

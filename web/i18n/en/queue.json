@@ -9,8 +9,12 @@
     "state.starting.fetch": "starting downloading",
     "state.starting.remux": "starting remuxing",
     "state.starting.encode": "starting transcoding",
+    "state.starting.magick": "starting converting",
+    "state.starting.pandoc": "starting converting",
 
     "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
-    "state.running.encode": "transcoding"
+    "state.running.encode": "transcoding",
+    "state.running.magick": "converting",
+    "state.running.pandoc": "converting"
 }
