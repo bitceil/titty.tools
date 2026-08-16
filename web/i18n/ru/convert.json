@@ -1,12 +1,15 @@
 {
     "bullet.purpose.title": "что можно конвертировать?",
-    "bullet.purpose.description": "конвертируйте медиа между популярными форматами: видео, аудио и изображения. всё перекодируется в вашем браузере с помощью ffmpeg.",
+    "bullet.purpose.description": "конвертируйте между популярными форматами: видео, аудио, изображения и документы. всё перекодируется в вашем браузере с помощью ffmpeg, imagemagick и pandoc.",
     "bullet.formats.title": "как это работает?",
-    "bullet.formats.description": "перетащите файл и выберите формат. поддерживаются mp4, webm, mkv, mp3, flac, wav, png, jpg, webp и другие.",
+    "bullet.formats.description": "перетащите файл и выберите формат. поддерживаются mp4, webm, mkv, mp3, flac, wav, png, jpg, psd, jxl, svg, pdf, docx, epub, md и другие.",
     "bullet.privacy.title": "обработка на устройстве",
     "bullet.privacy.description": "файлы конвертируются локально через webassembly. ничего не загружается, поэтому даже чувствительные файлы остаются на вашем устройстве.",
     "picker.title": "выберите формат",
     "picker.formats": "форматы на выходе",
     "picker.no_formats": "нет доступных форматов для этих файлов",
-    "picker.reset": "выбрать другие файлы"
+    "picker.reset": "выбрать другие файлы",
+    "engine.ffmpeg": "ffmpeg — видео, аудио, изображения",
+    "engine.imagemagick": "imagemagick — изображения",
+    "engine.pandoc": "pandoc — документы"
 }

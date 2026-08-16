@@ -4,6 +4,8 @@ import { queue, itemError } from "$lib/state/task-manager/queue";
 
 import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
+import { runMagickWorker } from "$lib/task-manager/runners/magick";
+import { runPandocWorker } from "$lib/task-manager/runners/pandoc";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -54,6 +56,34 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
 
         case "fetch":
             await runFetchWorker(workerId, parentId, workerArgs.url);
+            break;
+
+        case "magick":
+            if (workerArgs.files?.[0] && workerArgs.output) {
+                await runMagickWorker(
+                    workerId,
+                    parentId,
+                    workerArgs.files[0],
+                    workerArgs.from,
+                    workerArgs.output,
+                );
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+            }
+            break;
+
+        case "pandoc":
+            if (workerArgs.files?.[0] && workerArgs.output) {
+                await runPandocWorker(
+                    workerId,
+                    parentId,
+                    workerArgs.files[0],
+                    workerArgs.from,
+                    workerArgs.output,
+                );
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+            }
             break;
     }
 }

@@ -24,20 +24,50 @@ export const getMediaType = (type: string) => {
 export const createConvertPipeline = (file: File, format: ConvertFormat) => {
     const parentId = uuid();
     const baseName = file.name.replace(/\.[^./]+$/, "") || "converted";
+    const inputExt = file.name.split(".").pop()?.toLowerCase();
 
-    const pipeline: CobaltPipelineItem[] = [{
-        worker: "encode",
-        workerId: uuid(),
-        parentId,
-        workerArgs: {
-            files: [file],
-            ffargs: getConvertArgs(format, getFileCategory(file) || "video"),
-            output: {
-                type: format.mime,
-                format: format.ext,
+    const output = {
+        type: format.mime,
+        format: format.ext,
+    };
+
+    let worker: CobaltPipelineItem;
+    if (format.engine === "magick") {
+        worker = {
+            worker: "magick",
+            workerId: uuid(),
+            parentId,
+            workerArgs: {
+                files: [file],
+                from: inputExt,
+                output,
             },
-        },
-    }];
+        };
+    } else if (format.engine === "pandoc") {
+        worker = {
+            worker: "pandoc",
+            workerId: uuid(),
+            parentId,
+            workerArgs: {
+                files: [file],
+                from: inputExt,
+                output,
+            },
+        };
+    } else {
+        worker = {
+            worker: "encode",
+            workerId: uuid(),
+            parentId,
+            workerArgs: {
+                files: [file],
+                ffargs: getConvertArgs(format, getFileCategory(file) || "video"),
+                output,
+            },
+        };
+    }
+
+    const pipeline: CobaltPipelineItem[] = [worker];
 
     addItem({
         id: parentId,

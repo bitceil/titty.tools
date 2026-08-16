@@ -87,6 +87,16 @@ importers:
   packages/version-info: {}
 
   web:
+    dependencies:
+      '@bjorn3/browser_wasi_shim':
+        specifier: ^0.4.2
+        version: 0.4.2
+      '@imagemagick/magick-wasm':
+        specifier: 0.0.42
+        version: 0.0.42
+      client-zip:
+        specifier: ^2.5.0
+        version: 2.5.0
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.4
@@ -180,6 +190,9 @@ importers:
         version: 7.3.1(@types/node@25.5.0)(jiti@2.6.1)(lightningcss@1.32.0)
 
 packages:
+
+  '@bjorn3/browser_wasi_shim@0.4.2':
+    resolution: {integrity: sha512-/iHkCVUG3VbcbmEHn5iIUpIrh7a7WPiwZ3sHy4HZKZzBdSadwdddYDZAII2zBvQYV0Lfi8naZngPCN7WPHI/hA==}
 
   '@datastructures-js/heap@4.3.7':
     resolution: {integrity: sha512-Dx4un7Uj0dVxkfoq4RkpzsY2OrvNJgQYZ3n3UlGdl88RxxdHd7oTi21/l3zoxUUe0sXFuNUrfmWqlHzqnoN6Ug==}
@@ -562,6 +575,9 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@imagemagick/magick-wasm@0.0.42':
+    resolution: {integrity: sha512-SUX54Pf3uMBS4ThdmHvbcKqP83W2FRc8kVnqxtwm1csgeaDPn8h47zQh6Yt7U1kmZL7ziV22j4W3GmAef5uLWg==}
 
   '@imput/libav.js-encode-cli@6.8.7':
     resolution: {integrity: sha512-kWZmCwDYOQVSFu1ARsFfd5P0HqEx5TlhDMZFM/o8cWvMv7okCZWzKRMlEvw3EEGkxWkXUsgcf6F65wQEOE/08A==}
@@ -1058,6 +1074,9 @@ packages:
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
+
+  client-zip@2.5.0:
+    resolution: {integrity: sha512-ydG4nDZesbFurnNq0VVCp/yyomIBh+X/1fZPI/P24zbnG4dtC4tQAfI5uQsomigsUMeiRO2wiTPizLWQh+IAyQ==}
 
   clsx@2.1.1:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
@@ -2387,6 +2406,8 @@ packages:
 
 snapshots:
 
+  '@bjorn3/browser_wasi_shim@0.4.2': {}
+
   '@datastructures-js/heap@4.3.7': {}
 
   '@datastructures-js/priority-queue@6.3.5':
@@ -2616,6 +2637,8 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@imagemagick/magick-wasm@0.0.42': {}
 
   '@imput/libav.js-encode-cli@6.8.7': {}
 
@@ -3094,6 +3117,8 @@ snapshots:
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
+
+  client-zip@2.5.0: {}
 
   clsx@2.1.1: {}
 

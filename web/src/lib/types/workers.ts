@@ -38,6 +38,27 @@ type CobaltFetchPipelineItem = CobaltPipelineItemBase & {
     workerArgs: { url: string },
 }
 
+type CobaltMagickWorkerArgs = {
+    files: File[],
+    // input file extension, used as a format hint (svg, psd, raws...)
+    from?: string,
+    output: FileInfo,
+}
+
+type CobaltPandocWorkerArgs = CobaltMagickWorkerArgs;
+
+type CobaltMagickPipelineItem = CobaltPipelineItemBase & {
+    worker: "magick",
+    workerArgs: CobaltMagickWorkerArgs,
+}
+
+type CobaltPandocPipelineItem = CobaltPipelineItemBase & {
+    worker: "pandoc",
+    workerArgs: CobaltPandocWorkerArgs,
+}
+
 export type CobaltPipelineItem = CobaltEncodePipelineItem
                                | CobaltRemuxPipelineItem
-                               | CobaltFetchPipelineItem;
+                               | CobaltFetchPipelineItem
+                               | CobaltMagickPipelineItem
+                               | CobaltPandocPipelineItem;
