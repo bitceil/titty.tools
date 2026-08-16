@@ -8,6 +8,7 @@
     "state.starting.pandoc": "начинаю конвертацию",
     "state.starting.xod": "начинаю расшифровку",
     "state.starting.mupdf": "начинаю конвертацию",
+    "state.starting.compress": "начинаю сжатие",
     "title": "очередь обработки",
     "state.starting": "начинаю",
     "state.starting.remux": "начинаю ремуксинг",
@@ -17,5 +18,7 @@
     "state.running.pandoc": "конвертирую",
     "state.running.xod": "расшифровываю",
     "state.running.mupdf": "конвертирую",
+    "state.running.compress": "сжимаю",
+    "done.was_size": "было {{size}}",
     "stub": "тут пока что ничего нет, только мы вдвоём.\nпопробуй скачать что-нибудь!"
 }

@@ -11,6 +11,8 @@ type CobaltQueueBaseItem = {
     filename: string,
     mimeType?: string,
     mediaType: CobaltPipelineResultFileType,
+    // original file size, so the queue can show the compression ratio
+    originalSize?: number,
 };
 
 type CobaltQueueItemWaiting = CobaltQueueBaseItem & {

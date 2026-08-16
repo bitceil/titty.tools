@@ -9,7 +9,7 @@
 
     export let beta = false;
 
-    const firstTabPage = ["save", "convert", "remux", "settings"];
+    const firstTabPage = ["save", "convert", "compress", "remux", "settings"];
 
     let tab: HTMLElement;
 

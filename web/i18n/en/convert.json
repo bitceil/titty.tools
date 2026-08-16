@@ -13,6 +13,7 @@
     "picker.formats": "output formats",
     "picker.no_formats": "no output formats available for these files",
     "picker.reset": "choose different files",
+    "picker.video_warning": "video encoding runs entirely in your browser and can be extremely slow on larger files",
 
     "xod.password_title": "this file is encrypted",
     "xod.password_body": "enter the password it was encrypted with to convert it to xps.",

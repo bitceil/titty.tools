@@ -13,6 +13,7 @@
     "state.starting.pandoc": "starting converting",
     "state.starting.xod": "starting decrypting",
     "state.starting.mupdf": "starting converting",
+    "state.starting.compress": "starting compressing",
 
     "state.running.remux": "remuxing",
     "state.running.fetch": "downloading",
@@ -20,5 +21,8 @@
     "state.running.magick": "converting",
     "state.running.pandoc": "converting",
     "state.running.xod": "decrypting",
-    "state.running.mupdf": "converting"
+    "state.running.mupdf": "converting",
+    "state.running.compress": "compressing",
+
+    "done.was_size": "was {{size}}"
 }

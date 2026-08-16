@@ -7,6 +7,7 @@ import { openQueuePopover } from "$lib/state/queue-visibility";
 import { uuid } from "$lib/util";
 
 import { getConvertArgs, getFileCategory, isFFmpegReadableImage, type ConvertFormat } from "$lib/convert/formats";
+import { compressKindFor, type CompressOptions } from "$lib/compress";
 
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
@@ -191,6 +192,44 @@ export const createConvertPipeline = (file: File, format: ConvertFormat, passwor
         filename: `${baseName}.${format.ext}`,
         mimeType: format.mime,
         mediaType: getMediaType(format.mime) || "file",
+    });
+
+    openQueuePopover();
+}
+
+export const createCompressPipeline = (file: File, options: CompressOptions) => {
+    const parentId = uuid();
+    const baseName = file.name.replace(/\.[^./]+$/, "") || "compressed";
+
+    const output = {
+        type: options.outputMime,
+        format: options.outputExt,
+    };
+
+    const pipeline: CobaltPipelineItem[] = [{
+        worker: "compress",
+        workerId: uuid(),
+        parentId,
+        workerArgs: {
+            files: [file],
+            options,
+            output,
+        },
+    }];
+
+    const kind = compressKindFor(file);
+    const mediaType = kind === "video" || kind === "audio" || kind === "image"
+        ? kind
+        : "file";
+
+    addItem({
+        id: parentId,
+        state: "waiting",
+        pipeline,
+        filename: `${baseName}.${options.outputExt}`,
+        mimeType: options.outputMime,
+        mediaType,
+        originalSize: file.size,
     });
 
     openQueuePopover();

@@ -13,6 +13,7 @@
     "state.starting.pandoc": "spouštění převodu",
     "state.starting.xod": "spouštění dešifrování",
     "state.starting.mupdf": "spouštění převodu",
+    "state.starting.compress": "spouštění komprese",
 
     "state.running.remux": "remuxování",
     "state.running.fetch": "stahování",
@@ -20,5 +21,8 @@
     "state.running.magick": "převod",
     "state.running.pandoc": "převod",
     "state.running.xod": "dešifrování",
-    "state.running.mupdf": "převod"
+    "state.running.mupdf": "převod",
+    "state.running.compress": "komprese",
+
+    "done.was_size": "původně {{size}}"
 }

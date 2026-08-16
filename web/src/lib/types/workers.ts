@@ -57,6 +57,12 @@ type CobaltXodWorkerArgs = {
 
 type CobaltMupdfWorkerArgs = CobaltMagickWorkerArgs;
 
+type CobaltCompressWorkerArgs = {
+    files: File[],
+    options: import("$lib/compress").CompressOptions,
+    output: FileInfo,
+}
+
 type CobaltMagickPipelineItem = CobaltPipelineItemBase & {
     worker: "magick",
     workerArgs: CobaltMagickWorkerArgs,
@@ -77,10 +83,16 @@ type CobaltMupdfPipelineItem = CobaltPipelineItemBase & {
     workerArgs: CobaltMupdfWorkerArgs,
 }
 
+type CobaltCompressPipelineItem = CobaltPipelineItemBase & {
+    worker: "compress",
+    workerArgs: CobaltCompressWorkerArgs,
+}
+
 export type CobaltPipelineItem = CobaltEncodePipelineItem
                                | CobaltRemuxPipelineItem
                                | CobaltFetchPipelineItem
                                | CobaltMagickPipelineItem
                                | CobaltPandocPipelineItem
                                | CobaltXodPipelineItem
-                               | CobaltMupdfPipelineItem;
+                               | CobaltMupdfPipelineItem
+                               | CobaltCompressPipelineItem;

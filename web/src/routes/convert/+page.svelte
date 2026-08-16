@@ -5,7 +5,7 @@
     import { queueVisible } from "$lib/state/queue-visibility";
     import { createDialog } from "$lib/state/dialogs";
     import { dialogInputValue } from "$lib/state/dialog-input";
-    import { getSharedFormats, convertFormats, type ConvertFormat } from "$lib/convert/formats";
+    import { getSharedFormats, getFileCategory, convertFormats, type ConvertFormat } from "$lib/convert/formats";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
@@ -304,6 +304,10 @@
             </div>
 
             {#if formats.length}
+                {#if Array.from(files).some(f => getFileCategory(f) === "video")}
+                    <div class="picker-warning">{$t("convert.picker.video_warning")}</div>
+                {/if}
+
                 <div class="picker-formats" role="group" aria-label={$t("convert.picker.formats")}>
                     {#each formats as format (format.ext + (format.label ?? ""))}
                         <button
@@ -522,6 +526,13 @@
     .picker-error {
         font-size: 14px;
         color: var(--medium-red);
+    }
+
+    .picker-warning {
+        font-size: 13px;
+        color: var(--orange);
+        line-height: 1.5;
+        max-width: 420px;
     }
 
     .picker-reset {

@@ -3,6 +3,7 @@ import { device } from "$lib/device";
 import { queue, itemError } from "$lib/state/task-manager/queue";
 
 import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
+import { runCompressWorker } from "$lib/task-manager/runners/compress";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 import { runMagickWorker } from "$lib/task-manager/runners/magick";
 import { runPandocWorker } from "$lib/task-manager/runners/pandoc";
@@ -48,6 +49,26 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
                     workerArgs.output,
                     worker,
                     device.supports.multithreading,
+                    /*resetStartCounter=*/true,
+                );
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+            }
+            break;
+        }
+
+        case "compress": {
+            if (workerArgs.files) {
+                files = [...workerArgs.files];
+            }
+
+            if (files[0] && workerArgs.output) {
+                await runCompressWorker(
+                    workerId,
+                    parentId,
+                    files,
+                    workerArgs.options,
+                    workerArgs.output,
                     /*resetStartCounter=*/true,
                 );
             } else {

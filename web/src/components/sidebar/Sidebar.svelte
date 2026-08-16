@@ -12,6 +12,7 @@
 
     import IconRepeat from "@tabler/icons-svelte/IconRepeat.svelte";
     import IconArrowsExchange from "@tabler/icons-svelte/IconArrowsExchange.svelte";
+    import IconMinimize from "@tabler/icons-svelte/IconMinimize.svelte";
 
     import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
 
@@ -32,6 +33,7 @@
         <div id="sidebar-actions" class="sidebar-inner-container">
             <SidebarTab name="save" path="/" icon={IconDownload} />
             <SidebarTab name="convert" path="/convert" icon={IconArrowsExchange} />
+            <SidebarTab name="compress" path="/compress" icon={IconMinimize} />
             {#if !$settings.appearance.hideRemuxTab}
                 <SidebarTab name="remux" path="/remux" icon={IconRepeat} />
             {/if}

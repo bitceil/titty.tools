@@ -125,8 +125,13 @@
 
             return runningText;
 
-        case "done":
-            return formatFileSize(info.resultFile?.size);
+        case "done": {
+            const size = formatFileSize(info.resultFile?.size);
+            if (info.originalSize) {
+                return `${size} (${$t("queue.done.was_size", { size: formatFileSize(info.originalSize) })})`;
+            }
+            return size;
+        }
 
         case "error":
             return !retrying ? $t(`error.${info.errorCode}`) : $t("queue.state.retrying");

@@ -38,6 +38,10 @@ downloading a video often means fetching separate video and audio streams and me
 
 the convert tab turns local files into other formats without uploading anything. drop a file, pick an output format, and it's converted on your device using ffmpeg, imagemagick, pandoc, and mupdf compiled to WebAssembly. video, audio, images, and documents are all covered (including encrypted pdftron xod files and xps/pdf/epub documents), and your files never leave your computer.
 
+## compress files on your device
+
+the compress tab shrinks video, audio, and images locally. pick a quality preset or a custom max file size, and your files are re-encoded on your device with ffmpeg: never uploaded, and always under your target size.
+
 ## what's the same
 
 everything else is inherited from cobalt: the same clean interface, privacy-first defaults, no ads, no trackers, and no account required.
