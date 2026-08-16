@@ -36,7 +36,7 @@ stahování videa často znamená načtení oddělených video a audio proudů a
 
 ## Převod souborů probíhá také ve vašem prohlížeči
 
-karta převod mění místní soubory na jiné formáty, aniž byste cokoli nahrávali. přetáhněte soubor, vyberte výstupní formát a převod proběhne na vašem zařízení pomocí ffmpeg, imagemagick a pandoc přeložených do WebAssembly. video, audio, obrázky i dokumenty jsou pokryté a vaše soubory nikdy neopustí váš počítač.
+karta převod mění místní soubory na jiné formáty, aniž byste cokoli nahrávali. přetáhněte soubor, vyberte výstupní formát a převod proběhne na vašem zařízení pomocí ffmpeg, imagemagick, pandoc a mupdf přeložených do WebAssembly. video, audio, obrázky i dokumenty jsou pokryté (včetně šifrovaných pdftron xod souborů a xps/pdf/epub dokumentů) a vaše soubory nikdy neopustí váš počítač.
 
 ## Co zůstává stejné
 

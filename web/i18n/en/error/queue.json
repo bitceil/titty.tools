@@ -21,5 +21,7 @@
     "ffmpeg.no_audio_channel": "this video has no audio track, nothing to do",
     "ffmpeg.no_output_format": "this output format isn't supported by the conversion engine",
 
-    "xod.bad_password": "wrong password, or this file isn't an encrypted xod"
+    "xod.bad_password": "wrong password, or this file isn't an encrypted xod",
+
+    "mupdf.failed": "couldn't read or convert this document"
 }

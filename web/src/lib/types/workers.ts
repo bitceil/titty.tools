@@ -55,6 +55,8 @@ type CobaltXodWorkerArgs = {
     output: FileInfo,
 }
 
+type CobaltMupdfWorkerArgs = CobaltMagickWorkerArgs;
+
 type CobaltMagickPipelineItem = CobaltPipelineItemBase & {
     worker: "magick",
     workerArgs: CobaltMagickWorkerArgs,
@@ -70,9 +72,15 @@ type CobaltXodPipelineItem = CobaltPipelineItemBase & {
     workerArgs: CobaltXodWorkerArgs,
 }
 
+type CobaltMupdfPipelineItem = CobaltPipelineItemBase & {
+    worker: "mupdf",
+    workerArgs: CobaltMupdfWorkerArgs,
+}
+
 export type CobaltPipelineItem = CobaltEncodePipelineItem
                                | CobaltRemuxPipelineItem
                                | CobaltFetchPipelineItem
                                | CobaltMagickPipelineItem
                                | CobaltPandocPipelineItem
-                               | CobaltXodPipelineItem;
+                               | CobaltXodPipelineItem
+                               | CobaltMupdfPipelineItem;

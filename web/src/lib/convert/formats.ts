@@ -15,9 +15,14 @@
 //            format. xod is an xps zip with every part aes-cbc encrypted;
 //            the key is derived from the user-provided password and the
 //            part name. output is a decrypted xps file.
+// - mupdf:   mupdf.js wasm; reads xps, pdf, epub, mobi, fb2, cbz and txt
+//            (the wasm build has no svg handler, so svg inputs stay
+//            unsupported). pdf output is every page rasterized at 300dpi
+//            and assembled (mupdf.js doesn't expose its document-to-pdf
+//            converter), png/jpg render the first page.
 
 export type ConvertCategory = "video" | "audio" | "image" | "document";
-export type ConvertEngine = "ffmpeg" | "magick" | "pandoc" | "xod";
+export type ConvertEngine = "ffmpeg" | "magick" | "pandoc" | "xod" | "mupdf";
 
 export type ConvertFormat = {
     ext: string,
@@ -334,6 +339,29 @@ const magickCoreImageFormats: ConvertFormat[] = [
 ];
 
 // document formats handled by pandoc wasm (rtf output is unsupported)
+const mupdfDocumentFormats: ConvertFormat[] = [
+    {
+        ext: "pdf",
+        mime: "application/pdf",
+        category: "document",
+        engine: "mupdf",
+    },
+    {
+        ext: "png",
+        mime: "image/png",
+        category: "image",
+        engine: "mupdf",
+        label: "PNG (page)",
+    },
+    {
+        ext: "jpg",
+        mime: "image/jpeg",
+        category: "image",
+        engine: "mupdf",
+        label: "JPG (page)",
+    },
+];
+
 const xodDocumentFormats: ConvertFormat[] = [
     {
         ext: "xps",
@@ -403,6 +431,7 @@ export const convertFormats: ConvertFormat[] = [
     ...ffmpegImageFormats,
     ...magickImageFormats,
     ...magickCoreImageFormats,
+    ...mupdfDocumentFormats,
     ...xodDocumentFormats,
     ...pandocDocumentFormats,
 ];
@@ -449,14 +478,23 @@ const extCategories: Record<string, ConvertCategory> = {
     html: "document", json: "document",
     rst: "document", epub: "document", odt: "document", docbook: "document",
     rtf: "document", xod: "document",
+
+    // mupdf-readable documents
+    pdf: "document", xps: "document", mobi: "document", fb2: "document",
+    cbz: "document", txt: "document",
 };
+
+// extensions the mupdf engine reads as documents (svg is an image input;
+// plain images are already covered by ffmpeg/magick)
+const mupdfDocumentExts = new Set(["xps", "pdf", "epub", "mobi", "fb2", "cbz", "txt"]);
 
 // figure out what a file is, using the mime type when available and
 // falling back to the file extension
 export const getFileCategory = (file: File): ConvertCategory | undefined => {
-    // svg/pdf/eps need inkscape/ghostscript, which aren't in the wasm
-    // build, so no engine can read them; leave them unsupported
-    if (["image/svg+xml", "application/pdf", "application/postscript"].includes(file.type)) {
+    // svg needs the inkscape delegate and eps/postscript needs
+    // ghostscript; neither is in any wasm build, so leave them unsupported
+    // (pdf is read by the mupdf engine)
+    if (["image/svg+xml", "application/postscript"].includes(file.type)) {
         return undefined;
     }
 
@@ -502,10 +540,24 @@ export const getFormatsForInput = (file: File): ConvertFormat[] => {
         case "document": {
             const ext = file.name.split(".").pop()?.toLowerCase();
 
-            // xod is an encrypted xps, so the only output is a decrypted
-            // xps (the password is asked for when the button is clicked)
+            // xod is an encrypted xps: decrypt to xps, or decrypt and
+            // convert to pdf/png/jpg (the password is asked for when a
+            // format button is clicked)
             if (ext === "xod") {
-                return convertFormats.filter(f => f.engine === "xod");
+                return convertFormats.filter(f =>
+                    f.engine === "xod" || f.engine === "mupdf"
+                );
+            }
+
+            // xps/pdf/epub/mobi/fb2/cbz are read by the mupdf engine;
+            // plain txt also gets pandoc's markdown-ish outputs. pdf as
+            // an input doesn't offer pdf as an output (it's not a
+            // conversion)
+            if (mupdfDocumentExts.has(ext || "")) {
+                return convertFormats.filter(f =>
+                    (f.engine === "mupdf" && (ext !== "pdf" || f.ext !== "pdf"))
+                    || (f.engine === "pandoc" && f.category === "document" && ext === "txt")
+                );
             }
 
             return convertFormats.filter(f =>

@@ -1,8 +1,8 @@
 {
     "bullet.purpose.title": "co lze převést?",
-    "bullet.purpose.description": "převádějte mezi běžnými formáty: video, audio, obrázky a dokumenty. vše se překóduje přímo ve vašem prohlížeči pomocí ffmpeg, imagemagick a pandoc.",
+    "bullet.purpose.description": "převádějte mezi běžnými formáty: video, audio, obrázky a dokumenty. vše se překóduje přímo ve vašem prohlížeči pomocí ffmpeg, imagemagick, pandoc a mupdf.",
     "bullet.formats.title": "jak to funguje?",
-    "bullet.formats.description": "přetáhněte soubor a vyberte výstupní formát. převod probíhá lokálně ve vašem prohlížeči: ffmpeg, imagemagick a pandoc jsou zkompilovány do webassembly a výsledek se objeví ve frontě zpracování ke stažení.",
+    "bullet.formats.description": "přetáhněte soubor a vyberte výstupní formát. převod probíhá lokálně ve vašem prohlížeči: ffmpeg, imagemagick, pandoc a mupdf jsou zkompilovány do webassembly a výsledek se objeví ve frontě zpracování ke stažení.",
     "bullet.privacy.title": "zpracování na zařízení",
     "bullet.privacy.description": "soubory se převádějí lokálně přes webassembly. nic se nenahrává, takže i citlivé soubory zůstanou na vašem zařízení.",
     "receiver.hint": "přetáhněte video, audio, obrázky nebo dokumenty",

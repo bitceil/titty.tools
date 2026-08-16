@@ -48,8 +48,14 @@
         if (!files) return;
 
         // xod files are password-encrypted, so ask for the password
-        // before starting the conversion
-        if (format.engine === "xod") {
+        // before starting the conversion. that covers both the xps output
+        // (xod engine) and pdf/png/jpg (mupdf engine chained through a
+        // decrypted xps)
+        const inputIsXod = Array.from(files).some(f =>
+            f.name.toLowerCase().endsWith(".xod")
+        );
+
+        if (format.engine === "xod" || inputIsXod) {
             const currentFiles = Array.from(files);
 
             dialogInputValue.set("");
@@ -188,6 +194,13 @@
                         "rtf",
                         // encrypted documents (pdftron xod)
                         "xod",
+                        // documents read by the mupdf engine
+                        "xps",
+                        "pdf",
+                        "mobi",
+                        "fb2",
+                        "cbz",
+                        "txt",
                     ]}
                 />
             </div>

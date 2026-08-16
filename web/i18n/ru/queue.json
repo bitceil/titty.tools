@@ -7,6 +7,7 @@
     "state.starting.magick": "начинаю конвертацию",
     "state.starting.pandoc": "начинаю конвертацию",
     "state.starting.xod": "начинаю расшифровку",
+    "state.starting.mupdf": "начинаю конвертацию",
     "title": "очередь обработки",
     "state.starting": "начинаю",
     "state.starting.remux": "начинаю ремуксинг",
@@ -15,5 +16,6 @@
     "state.running.magick": "конвертирую",
     "state.running.pandoc": "конвертирую",
     "state.running.xod": "расшифровываю",
+    "state.running.mupdf": "конвертирую",
     "stub": "тут пока что ничего нет, только мы вдвоём.\nпопробуй скачать что-нибудь!"
 }

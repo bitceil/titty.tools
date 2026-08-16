@@ -7,6 +7,7 @@ import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 import { runMagickWorker } from "$lib/task-manager/runners/magick";
 import { runPandocWorker } from "$lib/task-manager/runners/pandoc";
 import { runXodWorker } from "$lib/task-manager/runners/xod";
+import { runMupdfWorker } from "$lib/task-manager/runners/mupdf";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -112,6 +113,37 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
                     parentId,
                     files[0],
                     workerArgs.password,
+                    workerArgs.output,
+                );
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+            }
+            break;
+        }
+
+        case "mupdf": {
+            if (workerArgs.files) {
+                files = [...workerArgs.files];
+            }
+
+            const parent = get(queue)[parentId];
+            if (parent?.state === "running" && dependsOn) {
+                for (const workerId of dependsOn) {
+                    const file = parent.pipelineResults[workerId];
+                    if (!file) {
+                        return itemError(parentId, workerId, "queue.ffmpeg.no_args");
+                    }
+
+                    files.push(file);
+                }
+            }
+
+            if (files[0] && workerArgs.output) {
+                await runMupdfWorker(
+                    workerId,
+                    parentId,
+                    files[0],
+                    workerArgs.from,
                     workerArgs.output,
                 );
             } else {

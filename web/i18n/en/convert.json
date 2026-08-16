@@ -1,8 +1,8 @@
 {
     "bullet.purpose.title": "what can it convert?",
-    "bullet.purpose.description": "convert between common formats: video, audio, images, and documents. everything is re-encoded in your browser with ffmpeg, imagemagick, and pandoc.",
+    "bullet.purpose.description": "convert between common formats: video, audio, images, and documents. everything is re-encoded in your browser with ffmpeg, imagemagick, pandoc, and mupdf.",
     "bullet.formats.title": "how does it work?",
-    "bullet.formats.description": "drop a file and pick an output format. the conversion runs locally in your browser via ffmpeg, imagemagick, and pandoc compiled to webassembly, and the result lands in the processing queue for download.",
+    "bullet.formats.description": "drop a file and pick an output format. the conversion runs locally in your browser via ffmpeg, imagemagick, pandoc, and mupdf compiled to webassembly, and the result lands in the processing queue for download.",
     "bullet.privacy.title": "on-device processing",
     "bullet.privacy.description": "files are converted locally with webassembly. nothing is uploaded, so even sensitive files stay on your device.",
     "receiver.hint": "drop video, audio, images, or documents",

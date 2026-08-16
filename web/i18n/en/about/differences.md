@@ -36,7 +36,7 @@ downloading a video often means fetching separate video and audio streams and me
 
 ## file conversion happens in your browser too
 
-the convert tab turns local files into other formats without uploading anything. drop a file, pick an output format, and it's converted on your device using ffmpeg, imagemagick, and pandoc compiled to WebAssembly. video, audio, images, and documents are all covered, and your files never leave your computer.
+the convert tab turns local files into other formats without uploading anything. drop a file, pick an output format, and it's converted on your device using ffmpeg, imagemagick, pandoc, and mupdf compiled to WebAssembly. video, audio, images, and documents are all covered (including encrypted pdftron xod files and xps/pdf/epub documents), and your files never leave your computer.
 
 ## what's the same
 

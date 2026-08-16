@@ -12,11 +12,13 @@
     "state.starting.magick": "spouštění převodu",
     "state.starting.pandoc": "spouštění převodu",
     "state.starting.xod": "spouštění dešifrování",
+    "state.starting.mupdf": "spouštění převodu",
 
     "state.running.remux": "remuxování",
     "state.running.fetch": "stahování",
     "state.running.encode": "překódování",
     "state.running.magick": "převod",
     "state.running.pandoc": "převod",
-    "state.running.xod": "dešifrování"
+    "state.running.xod": "dešifrování",
+    "state.running.mupdf": "převod"
 }

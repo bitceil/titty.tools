@@ -47,6 +47,47 @@ export const createConvertPipeline = (file: File, format: ConvertFormat, passwor
                 output,
             },
         }];
+    } else if (format.engine === "mupdf") {
+        if (inputExt === "xod") {
+            // xod -> pdf/png/jpg: decrypt to xps first, then convert it
+            // with the mupdf engine (same password as the xps path)
+            const decrypt = {
+                worker: "xod" as const,
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    password: password || "",
+                    output: { type: "application/oxps", format: "xps" },
+                },
+            };
+
+            pipeline = [
+                decrypt,
+                {
+                    worker: "mupdf",
+                    workerId: uuid(),
+                    parentId,
+                    dependsOn: [decrypt.workerId],
+                    workerArgs: {
+                        files: [],
+                        from: "xps",
+                        output,
+                    },
+                },
+            ];
+        } else {
+            pipeline = [{
+                worker: "mupdf",
+                workerId: uuid(),
+                parentId,
+                workerArgs: {
+                    files: [file],
+                    from: inputExt,
+                    output,
+                },
+            }];
+        }
     } else if (format.engine === "pandoc") {
         pipeline = [{
             worker: "pandoc",

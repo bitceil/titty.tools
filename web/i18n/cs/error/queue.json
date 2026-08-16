@@ -21,5 +21,7 @@
     "ffmpeg.no_audio_channel": "toto video nemá zvukovou stopu, není co dělat",
     "ffmpeg.no_output_format": "tento výstupní formát převodní engine nepodporuje",
 
-    "xod.bad_password": "špatné heslo, nebo tento soubor není šifrovaný xod"
+    "xod.bad_password": "špatné heslo, nebo tento soubor není šifrovaný xod",
+
+    "mupdf.failed": "nepodařilo se přečíst nebo převést tento dokument"
 }
