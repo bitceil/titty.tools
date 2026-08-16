@@ -1,0 +1,4 @@
+# this folder contains scripts with hardcoded credentials,
+# so ignore everything in it except this file.
+*
+!.gitignore
