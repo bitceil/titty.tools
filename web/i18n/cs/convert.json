@@ -1,0 +1,12 @@
+{
+    "bullet.purpose.title": "co lze převést?",
+    "bullet.purpose.description": "převádějte média mezi běžnými formáty: video, audio a obrázky. vše se překóduje přímo ve vašem prohlížeči pomocí ffmpeg.",
+    "bullet.formats.title": "jak to funguje?",
+    "bullet.formats.description": "přetáhněte soubor a vyberte výstupní formát. podporovány jsou mp4, webm, mkv, mp3, flac, wav, png, jpg, webp a další.",
+    "bullet.privacy.title": "zpracování na zařízení",
+    "bullet.privacy.description": "soubory se převádějí lokálně přes webassembly. nic se nenahrává, takže i citlivé soubory zůstanou na vašem zařízení.",
+    "picker.title": "vyberte výstupní formát",
+    "picker.formats": "výstupní formáty",
+    "picker.no_formats": "pro tyto soubory nejsou dostupné žádné výstupní formáty",
+    "picker.reset": "vybrat jiné soubory"
+}

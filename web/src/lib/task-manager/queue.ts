@@ -6,6 +6,8 @@ import { addItem } from "$lib/state/task-manager/queue";
 import { openQueuePopover } from "$lib/state/queue-visibility";
 import { uuid } from "$lib/util";
 
+import { getConvertArgs, getFileCategory, type ConvertFormat } from "$lib/convert/formats";
+
 import type { CobaltQueueItem } from "$lib/types/queue";
 import type { CobaltCurrentTasks } from "$lib/types/task-manager";
 import { resultFileTypes, type CobaltPipelineItem, type CobaltPipelineResultFileType } from "$lib/types/workers";
@@ -17,6 +19,36 @@ export const getMediaType = (type: string) => {
     if (resultFileTypes.includes(kind)) {
         return kind;
     }
+}
+
+export const createConvertPipeline = (file: File, format: ConvertFormat) => {
+    const parentId = uuid();
+    const baseName = file.name.replace(/\.[^./]+$/, "") || "converted";
+
+    const pipeline: CobaltPipelineItem[] = [{
+        worker: "encode",
+        workerId: uuid(),
+        parentId,
+        workerArgs: {
+            files: [file],
+            ffargs: getConvertArgs(format, getFileCategory(file) || "video"),
+            output: {
+                type: format.mime,
+                format: format.ext,
+            },
+        },
+    }];
+
+    addItem({
+        id: parentId,
+        state: "waiting",
+        pipeline,
+        filename: `${baseName}.${format.ext}`,
+        mimeType: format.mime,
+        mediaType: getMediaType(format.mime) || "file",
+    });
+
+    openQueuePopover();
 }
 
 export const createRemuxPipeline = (file: File) => {

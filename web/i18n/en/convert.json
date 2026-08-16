@@ -1,0 +1,12 @@
+{
+    "bullet.purpose.title": "what can it convert?",
+    "bullet.purpose.description": "convert media between common formats: video, audio, and images. everything is re-encoded in your browser with ffmpeg.",
+    "bullet.formats.title": "how does it work?",
+    "bullet.formats.description": "drop a file and pick an output format. supported outputs include mp4, webm, mkv, mp3, flac, wav, png, jpg, webp and more.",
+    "bullet.privacy.title": "on-device processing",
+    "bullet.privacy.description": "files are converted locally with webassembly. nothing is uploaded, so even sensitive files stay on your device.",
+    "picker.title": "choose an output format",
+    "picker.formats": "output formats",
+    "picker.no_formats": "no output formats available for these files",
+    "picker.reset": "choose different files"
+}
