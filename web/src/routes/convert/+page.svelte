@@ -1,6 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { createConvertPipeline } from "$lib/task-manager/queue";
+    import { queueVisible } from "$lib/state/queue-visibility";
     import { getSharedFormats, convertFormats, type ConvertFormat } from "$lib/convert/formats";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
@@ -28,6 +29,10 @@
     ).values()];
 
     const onImport = async () => {
+        // a new drop means the user wants to convert again, so hide the
+        // queue popover that would otherwise cover the format buttons
+        $queueVisible = false;
+
         if (!files?.length) {
             formats = [];
             return;

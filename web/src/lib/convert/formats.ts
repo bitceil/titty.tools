@@ -154,14 +154,16 @@ const ffmpegAudioFormats: ConvertFormat[] = [
         mime: "audio/webm",
         category: "audio",
         engine: "ffmpeg",
-        args: ["-vn", "-c:a", "libopus"],
+        // libav can't pick a muxer from the .weba extension, so force it
+        args: ["-vn", "-c:a", "libopus", "-f", "webm"],
     },
     {
         ext: "oga",
         mime: "audio/ogg",
         category: "audio",
         engine: "ffmpeg",
-        args: ["-vn", "-c:a", "libvorbis"],
+        // libav can't pick a muxer from the .oga extension, so force it
+        args: ["-vn", "-c:a", "libvorbis", "-f", "ogg"],
     },
 ];
 
@@ -213,11 +215,13 @@ const ffmpegImageFormats: ConvertFormat[] = [
         mime: "image/gif",
         category: "image",
         engine: "ffmpeg",
-        // static gif from an image, animated palette gif from a video
+        // static gif from an image, animated palette gif from a video.
+        // the libav build can't parse `fps=15` ("No option name near '15'"),
+        // so match the save pipeline's makeGifArgs syntax without it
         imageArgs: ["-an", "-frames:v", "1", "-c:v", "gif"],
         videoArgs: [
             "-vf",
-            "fps=15,scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
+            "scale=-1:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse",
             "-loop", "0",
         ],
         args: ["-an", "-frames:v", "1", "-c:v", "gif"],
@@ -310,13 +314,6 @@ const magickImageFormats: ConvertFormat[] = [
         engine: "magick",
         clampSize: 256,
     },
-    {
-        ext: "cur",
-        mime: "image/x-icon",
-        category: "image",
-        engine: "magick",
-        clampSize: 256,
-    },
 ];
 
 // raster outputs magick offers when the input can't be read by ffmpeg
@@ -352,18 +349,8 @@ const pandocDocumentFormats: ConvertFormat[] = [
         category: "document",
         engine: "pandoc",
     },
-    {
-        ext: "csv",
-        mime: "text/csv",
-        category: "document",
-        engine: "pandoc",
-    },
-    {
-        ext: "tsv",
-        mime: "text/tab-separated-values",
-        category: "document",
-        engine: "pandoc",
-    },
+    // csv/tsv are intentionally missing: this pandoc.wasm build has no
+    // csv/tsv writers (PandocUnknownWriterError), so they'd always fail
     {
         ext: "json",
         mime: "application/json",
@@ -432,7 +419,7 @@ const extCategories: Record<string, ConvertCategory> = {
 
     png: "image", jpg: "image", jpeg: "image", webp: "image", bmp: "image",
     tiff: "image", tif: "image", avif: "image", gif: "image", ico: "image",
-    cur: "image", psd: "image", jxl: "image", hdr: "image",
+    psd: "image", jxl: "image", hdr: "image",
     mat: "image", pfm: "image", pnm: "image", ppm: "image", pgm: "image",
     pbm: "image",
     // raw camera + misc formats that magick can read but not write.
@@ -445,7 +432,7 @@ const extCategories: Record<string, ConvertCategory> = {
     xcf: "image",
 
     md: "document", markdown: "document", docx: "document", doc: "document",
-    html: "document", csv: "document", tsv: "document", json: "document",
+    html: "document", json: "document",
     rst: "document", epub: "document", odt: "document", docbook: "document",
     rtf: "document",
 };
