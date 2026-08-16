@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { createConvertPipeline } from "$lib/task-manager/queue";
-    import { getSharedFormats, type ConvertFormat } from "$lib/convert/formats";
+    import { getSharedFormats, convertFormats, type ConvertEngine, type ConvertFormat } from "$lib/convert/formats";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
@@ -9,12 +9,29 @@
 
     import IconArrowsExchange from "@tabler/icons-svelte/IconArrowsExchange.svelte";
     import IconDevices from "@tabler/icons-svelte/IconDevices.svelte";
-    import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
+    import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
 
     let draggedOver = false;
     let files: FileList | undefined;
     let formats: ConvertFormat[] = [];
+    let formatsExpanded = false;
+
+    // full supported-format list for the dropdown, deduplicated by
+    // extension+label (magick has core duplicates of ffmpeg's rasters)
+    // and grouped by engine
+    const formatGroups = (["ffmpeg", "magick", "pandoc"] as ConvertEngine[])
+        .map(engine => ({
+            engine,
+            // magick's `core` formats duplicate ffmpeg's rasters, so they're
+            // only listed under ffmpeg
+            formats: [...new Map(
+                convertFormats
+                    .filter(f => f.engine === engine && !f.core)
+                    .map(f => [f.ext + (f.label ?? ""), f])
+            ).values()],
+        }))
+        .filter(group => group.formats.length);
 
     const onImport = async () => {
         if (!files?.length) {
@@ -137,11 +154,38 @@
                     icon={IconArrowsExchange}
                 />
 
-                <BulletExplain
-                    title={$t("convert.bullet.formats.title")}
-                    description={$t("convert.bullet.formats.description")}
-                    icon={IconInfoCircle}
-                />
+                <div id="convert-formats" class:expanded={formatsExpanded}>
+                    <button
+                        id="formats-button"
+                        class="button"
+                        onclick={() => formatsExpanded = !formatsExpanded}
+                        aria-label={$t(`convert.formats.title_${formatsExpanded ? "hide" : "show"}`)}
+                    >
+                        <div class="expand-icon">
+                            <IconPlus />
+                        </div>
+                        <span>{$t("convert.formats.title")}</span>
+                    </button>
+
+                    {#if formatsExpanded}
+                        <div id="formats-list">
+                            {#each formatGroups as group (group.engine)}
+                                <div class="formats-group">
+                                    <div class="formats-group-name">
+                                        {$t(`convert.engine.${group.engine === "magick" ? "imagemagick" : group.engine}`)}
+                                    </div>
+                                    <div class="formats-items">
+                                        {#each group.formats as format (format.ext + (format.label ?? ""))}
+                                            <span class="format-chip">
+                                                {format.label || format.ext.toUpperCase()}
+                                            </span>
+                                        {/each}
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    {/if}
+                </div>
 
                 <BulletExplain
                     title={$t("convert.bullet.privacy.title")}
@@ -233,6 +277,139 @@
         flex-direction: column;
         gap: 18px;
         max-width: 450px;
+    }
+
+    #convert-formats {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    #formats-button {
+        gap: 9px;
+        padding: 7px 13px 7px 10px;
+        justify-content: flex-start;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: row;
+        font-size: 13px;
+        font-weight: 500;
+        background: none;
+        transition:
+            background 0.2s,
+            box-shadow 0.1s;
+    }
+
+    #formats-button:not(:active) {
+        box-shadow: none;
+    }
+
+    .expand-icon {
+        height: 22px;
+        width: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 18px;
+        background: var(--button-elevated);
+        padding: 0;
+        box-shadow: none;
+        transition:
+            background 0.2s,
+            transform 0.2s;
+    }
+
+    #formats-button:active {
+        background: var(--button-hover-transparent);
+    }
+
+    @media (hover: hover) {
+        #formats-button:hover {
+            background: var(--button-hover-transparent);
+        }
+
+        #formats-button:active {
+            background: var(--button-press-transparent);
+        }
+
+        #formats-button:hover .expand-icon {
+            background: var(--button-elevated-hover);
+        }
+    }
+
+    @media (hover: none) {
+        #formats-button:active {
+            box-shadow: none;
+        }
+    }
+
+    #formats-button:active .expand-icon {
+        background: var(--button-elevated-press);
+    }
+
+    .expand-icon :global(svg) {
+        height: 18px;
+        width: 18px;
+        stroke-width: 2px;
+        color: var(--secondary);
+        will-change: transform;
+    }
+
+    .expanded .expand-icon {
+        transform: rotate(45deg);
+    }
+
+    #formats-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        padding: 0 6px;
+    }
+
+    .formats-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .formats-group-name {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--gray);
+    }
+
+    .formats-items {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+
+    .format-chip {
+        display: flex;
+        padding: 4px 8px;
+        border-radius: calc(var(--border-radius) / 2);
+        background: var(--button-elevated);
+        font-size: 12.5px;
+        font-weight: 500;
+        color: var(--secondary);
+    }
+
+    @media screen and (max-width: 535px) {
+        .expand-icon {
+            height: 21px;
+            width: 21px;
+        }
+
+        .expand-icon :global(svg) {
+            height: 16px;
+            width: 16px;
+        }
     }
 
     #convert-picker {

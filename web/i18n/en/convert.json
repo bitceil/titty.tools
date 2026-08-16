@@ -1,15 +1,16 @@
 {
     "bullet.purpose.title": "what can it convert?",
     "bullet.purpose.description": "convert between common formats: video, audio, images, and documents. everything is re-encoded in your browser with ffmpeg, imagemagick, and pandoc.",
-    "bullet.formats.title": "how does it work?",
-    "bullet.formats.description": "drop a file and pick an output format. supported outputs include mp4, webm, mkv, mp3, flac, wav, png, jpg, psd, jxl, svg, pdf, docx, epub, md and more.",
     "bullet.privacy.title": "on-device processing",
     "bullet.privacy.description": "files are converted locally with webassembly. nothing is uploaded, so even sensitive files stay on your device.",
+    "formats.title": "supported formats",
+    "formats.title_show": "show supported formats",
+    "formats.title_hide": "hide supported formats",
     "picker.title": "choose an output format",
     "picker.formats": "output formats",
     "picker.no_formats": "no output formats available for these files",
     "picker.reset": "choose different files",
-    "engine.ffmpeg": "ffmpeg — video, audio, images",
-    "engine.imagemagick": "imagemagick — images",
-    "engine.pandoc": "pandoc — documents"
+    "engine.ffmpeg": "ffmpeg: video, audio, images",
+    "engine.imagemagick": "imagemagick: images",
+    "engine.pandoc": "pandoc: documents"
 }
