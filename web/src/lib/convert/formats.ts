@@ -15,11 +15,11 @@
 //            format. xod is an xps zip with every part aes-cbc encrypted;
 //            the key is derived from the user-provided password and the
 //            part name. output is a decrypted xps file.
-// - mupdf:   mupdf.js wasm; reads xps, pdf, epub, mobi, fb2, cbz and txt
-//            (the wasm build has no svg handler, so svg inputs stay
-//            unsupported). pdf output is every page rasterized at 300dpi
-//            and assembled (mupdf.js doesn't expose its document-to-pdf
-//            converter), png/jpg render the first page.
+// - mupdf:   custom build of mupdf proper compiled to wasm (see
+//            static/_mupdf); reads xps, pdf, epub, mobi, fb2, cbz and txt.
+//            pdf output is a real vector pdf (text stays selectable, fonts
+//            embedded) via the document writer; png/jpg render the first
+//            page at 300dpi.
 
 export type ConvertCategory = "video" | "audio" | "image" | "document";
 export type ConvertEngine = "ffmpeg" | "magick" | "pandoc" | "xod" | "mupdf";
@@ -338,7 +338,7 @@ const magickCoreImageFormats: ConvertFormat[] = [
     { ext: "avif", mime: "image/avif", category: "image", engine: "magick", core: true },
 ];
 
-// document formats handled by pandoc wasm (rtf output is unsupported)
+// document/image outputs of the mupdf engine (vector pdf + page renders)
 const mupdfDocumentFormats: ConvertFormat[] = [
     {
         ext: "pdf",

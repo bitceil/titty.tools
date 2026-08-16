@@ -1,6 +1,6 @@
 // like the other engines, the worker is a separate iife chunk that's only
 // loaded when a mupdf conversion actually starts (it then dynamically
-// imports mupdf.js from static/_mupdf, keeping the ~10mb wasm out of the
+// imports tt-mupdf from static/_mupdf, keeping the ~10mb wasm out of the
 // page load entirely)
 import MupdfWorker from "$lib/task-manager/workers/mupdf?worker";
 
