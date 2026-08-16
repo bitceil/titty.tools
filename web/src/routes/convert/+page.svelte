@@ -24,12 +24,26 @@
 
     // full supported-format list for the dropdown, deduplicated by
     // extension+label (magick's `core` formats duplicate ffmpeg's rasters,
-    // so they're skipped)
-    const formatChips = [...new Map(
+    // so they're skipped). xod isn't an output format (it's the encrypted
+    // input that decrypts to xps), so it's added as a chip manually.
+    const formatChips: ConvertFormat[] = [...new Map(
         convertFormats
             .filter(f => !f.core)
             .map(f => [f.ext + (f.label ?? ""), f])
     ).values()];
+    // sit it next to xps, since xod decrypts to an xps
+    const xpsIdx = formatChips.findIndex(c => c.ext === "xps");
+    const xodChip = {
+        ext: "xod",
+        mime: "application/octet-stream",
+        category: "document",
+        engine: "xod",
+    } as ConvertFormat;
+    if (xpsIdx >= 0) {
+        formatChips.splice(xpsIdx, 0, xodChip);
+    } else {
+        formatChips.push(xodChip);
+    }
 
     const onImport = async () => {
         // a new drop means the user wants to convert again, so hide the
@@ -124,7 +138,32 @@
                     bind:files
                     onImport={onImport}
                     subtext={$t("convert.receiver.hint")}
-                    acceptTypes={["video/*", "audio/*", "image/*"]}
+                    acceptTypes={[
+                        "video/*",
+                        "audio/*",
+                        "image/*",
+                        // documents (pandoc + mupdf engines); xod has no
+                        // standard mime type, so it's matched by extension
+                        "text/markdown",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/msword",
+                        "text/html",
+                        "text/csv",
+                        "text/tab-separated-values",
+                        "application/json",
+                        "text/x-rst",
+                        "application/vnd.oasis.opendocument.text",
+                        "application/xml",
+                        "application/rtf",
+                        "application/oxps",
+                        "application/pdf",
+                        "application/epub+zip",
+                        "application/x-mobipocket-ebook",
+                        "application/x-fictionbook+xml",
+                        "application/vnd.comicbook+zip",
+                        "text/plain",
+                        ".xod",
+                    ]}
                     acceptExtensions={[
                         // video
                         "mp4",
