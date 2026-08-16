@@ -11,6 +11,7 @@
         acceptTypes: string[];
         acceptExtensions: string[];
         maxFileNumber?: number;
+        showAcceptList?: boolean;
         onImport: () => {};
     }
 
@@ -20,6 +21,7 @@
         acceptTypes,
         acceptExtensions,
         maxFileNumber = 100,
+        showAcceptList = true,
         onImport,
     }: Props = $props();
 
@@ -76,11 +78,13 @@
                     {$t("receiver.title" + selectorStringMultiple)}
                 {/if}
             </div>
-            <div class="subtext accept-list">
-                {$t("receiver.accept", {
-                    formats: acceptExtensions.join(", "),
-                })}
-            </div>
+            {#if showAcceptList}
+                <div class="subtext accept-list">
+                    {$t("receiver.accept", {
+                        formats: acceptExtensions.join(", "),
+                    })}
+                </div>
+            {/if}
         </div>
     </button>
 </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
     import { t } from "$lib/i18n/translations";
     import { createConvertPipeline } from "$lib/task-manager/queue";
-    import { getSharedFormats, convertFormats, type ConvertEngine, type ConvertFormat } from "$lib/convert/formats";
+    import { getSharedFormats, convertFormats, type ConvertFormat } from "$lib/convert/formats";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
     import FileReceiver from "$components/misc/FileReceiver.svelte";
@@ -9,6 +9,7 @@
 
     import IconArrowsExchange from "@tabler/icons-svelte/IconArrowsExchange.svelte";
     import IconDevices from "@tabler/icons-svelte/IconDevices.svelte";
+    import IconInfoCircle from "@tabler/icons-svelte/IconInfoCircle.svelte";
     import IconPlus from "@tabler/icons-svelte/IconPlus.svelte";
     import IconFileImport from "@tabler/icons-svelte/IconFileImport.svelte";
 
@@ -18,20 +19,13 @@
     let formatsExpanded = false;
 
     // full supported-format list for the dropdown, deduplicated by
-    // extension+label (magick has core duplicates of ffmpeg's rasters)
-    // and grouped by engine
-    const formatGroups = (["ffmpeg", "magick", "pandoc"] as ConvertEngine[])
-        .map(engine => ({
-            engine,
-            // magick's `core` formats duplicate ffmpeg's rasters, so they're
-            // only listed under ffmpeg
-            formats: [...new Map(
-                convertFormats
-                    .filter(f => f.engine === engine && !f.core)
-                    .map(f => [f.ext + (f.label ?? ""), f])
-            ).values()],
-        }))
-        .filter(group => group.formats.length);
+    // extension+label (magick's `core` formats duplicate ffmpeg's rasters,
+    // so they're skipped)
+    const formatChips = [...new Map(
+        convertFormats
+            .filter(f => !f.core)
+            .map(f => [f.ext + (f.label ?? ""), f])
+    ).values()];
 
     const onImport = async () => {
         if (!files?.length) {
@@ -75,6 +69,7 @@
                     bind:draggedOver
                     bind:files
                     onImport={onImport}
+                    showAcceptList={false}
                     acceptTypes={["video/*", "audio/*", "image/*"]}
                     acceptExtensions={[
                         // video
@@ -154,6 +149,12 @@
                     icon={IconArrowsExchange}
                 />
 
+                <BulletExplain
+                    title={$t("convert.bullet.formats.title")}
+                    description={$t("convert.bullet.formats.description")}
+                    icon={IconInfoCircle}
+                />
+
                 <div id="convert-formats" class:expanded={formatsExpanded}>
                     <button
                         id="formats-button"
@@ -169,19 +170,10 @@
 
                     {#if formatsExpanded}
                         <div id="formats-list">
-                            {#each formatGroups as group (group.engine)}
-                                <div class="formats-group">
-                                    <div class="formats-group-name">
-                                        {$t(`convert.engine.${group.engine === "magick" ? "imagemagick" : group.engine}`)}
-                                    </div>
-                                    <div class="formats-items">
-                                        {#each group.formats as format (format.ext + (format.label ?? ""))}
-                                            <span class="format-chip">
-                                                {format.label || format.ext.toUpperCase()}
-                                            </span>
-                                        {/each}
-                                    </div>
-                                </div>
+                            {#each formatChips as format (format.ext + (format.label ?? ""))}
+                                <span class="format-chip">
+                                    {format.label || format.ext.toUpperCase()}
+                                </span>
                             {/each}
                         </div>
                     {/if}
@@ -362,32 +354,11 @@
 
     #formats-list {
         display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-        padding: 0 6px;
-    }
-
-    .formats-group {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-
-    .formats-group-name {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--gray);
-    }
-
-    .formats-items {
-        display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 4px;
+        width: 100%;
+        padding: 0 6px;
     }
 
     .format-chip {
