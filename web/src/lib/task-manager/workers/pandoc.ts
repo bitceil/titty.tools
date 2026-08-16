@@ -21,7 +21,11 @@ let wasm: ArrayBuffer | undefined;
 
 const load = async () => {
     if (wasm) return;
-    wasm = await fetch("/pandoc.wasm").then(r => r.arrayBuffer());
+    // pandoc.wasm is ~50mb, so it's committed gzipped (~14mb) to fit
+    // cloudflare pages' 25mb per-file limit; decompress it in-browser
+    const res = await fetch("/pandoc.wasm.gz");
+    const stream = res.body!.pipeThrough(new DecompressionStream("gzip"));
+    wasm = await new Response(stream).arrayBuffer();
 }
 
 const pandocFormat = (ext: string) => {
