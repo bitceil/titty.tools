@@ -6,6 +6,7 @@
     "state.starting.encode": "начинаю транскодирование",
     "state.starting.magick": "начинаю конвертацию",
     "state.starting.pandoc": "начинаю конвертацию",
+    "state.starting.xod": "начинаю расшифровку",
     "title": "очередь обработки",
     "state.starting": "начинаю",
     "state.starting.remux": "начинаю ремуксинг",
@@ -13,5 +14,6 @@
     "state.running.encode": "транскодирую",
     "state.running.magick": "конвертирую",
     "state.running.pandoc": "конвертирую",
+    "state.running.xod": "расшифровываю",
     "stub": "тут пока что ничего нет, только мы вдвоём.\nпопробуй скачать что-нибудь!"
 }

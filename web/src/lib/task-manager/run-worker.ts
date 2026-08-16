@@ -6,6 +6,7 @@ import { runFFmpegWorker } from "$lib/task-manager/runners/ffmpeg";
 import { runFetchWorker } from "$lib/task-manager/runners/fetch";
 import { runMagickWorker } from "$lib/task-manager/runners/magick";
 import { runPandocWorker } from "$lib/task-manager/runners/pandoc";
+import { runXodWorker } from "$lib/task-manager/runners/xod";
 
 import type { CobaltPipelineItem } from "$lib/types/workers";
 
@@ -94,6 +95,25 @@ export const startWorker = async ({ worker, workerId, dependsOn, parentId, worke
                         workerArgs.output,
                     );
                 }
+            } else {
+                itemError(parentId, workerId, "queue.ffmpeg.no_args");
+            }
+            break;
+        }
+
+        case "xod": {
+            if (workerArgs.files) {
+                files = [...workerArgs.files];
+            }
+
+            if (files[0] && workerArgs.output) {
+                await runXodWorker(
+                    workerId,
+                    parentId,
+                    files[0],
+                    workerArgs.password,
+                    workerArgs.output,
+                );
             } else {
                 itemError(parentId, workerId, "queue.ffmpeg.no_args");
             }

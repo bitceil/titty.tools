@@ -3,6 +3,7 @@
     import type { Optional } from "$lib/types/generic";
     import type { TitEmotions } from "$lib/types/tit";
     import type { DialogButton, SmallDialogIcons } from "$lib/types/dialog";
+    import { dialogInputValue } from "$lib/state/dialog-input";
 
     import DialogContainer from "$components/dialog/DialogContainer.svelte";
 
@@ -17,6 +18,7 @@
     export let title = "";
     export let bodyText = "";
     export let bodySubText = "";
+    export let input: Optional<{ placeholder?: string, type?: string }> = undefined;
     export let buttons: Optional<DialogButton[]> = undefined;
     export let dismissable = true;
     export let leftAligned = false;
@@ -63,6 +65,14 @@
             {/if}
             {#if bodySubText}
                 <div class="subtext popup-subtext">{bodySubText}</div>
+            {/if}
+            {#if input}
+                <input
+                    class="dialog-input"
+                    type={input.type || "text"}
+                    placeholder={input.placeholder}
+                    bind:value={$dialogInputValue}
+                />
             {/if}
         </div>
         {#if buttons}
@@ -152,5 +162,22 @@
         height: 40px;
         width: 40px;
         stroke-width: 1.8px;
+    }
+
+    .dialog-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--secondary);
+        background: var(--button);
+        border: 1.5px solid var(--popup-stroke);
+        border-radius: var(--border-radius);
+        outline: none;
+    }
+
+    .dialog-input:focus {
+        border-color: var(--accent);
     }
 </style>

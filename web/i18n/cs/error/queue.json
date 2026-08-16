@@ -19,5 +19,7 @@
     "ffmpeg.no_render": "ffmpeg render je prázdný, stalo se něco velmi zvláštního",
     "ffmpeg.no_args": "ffmpeg worker nedostal potřebné argumenty",
     "ffmpeg.no_audio_channel": "toto video nemá zvukovou stopu, není co dělat",
-    "ffmpeg.no_output_format": "tento výstupní formát převodní engine nepodporuje"
+    "ffmpeg.no_output_format": "tento výstupní formát převodní engine nepodporuje",
+
+    "xod.bad_password": "špatné heslo, nebo tento soubor není šifrovaný xod"
 }

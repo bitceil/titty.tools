@@ -21,7 +21,7 @@ export const getMediaType = (type: string) => {
     }
 }
 
-export const createConvertPipeline = (file: File, format: ConvertFormat) => {
+export const createConvertPipeline = (file: File, format: ConvertFormat, password?: string) => {
     const parentId = uuid();
     const baseName = file.name.replace(/\.[^./]+$/, "") || "converted";
     const inputExt = file.name.split(".").pop()?.toLowerCase();
@@ -34,7 +34,20 @@ export const createConvertPipeline = (file: File, format: ConvertFormat) => {
 
     let pipeline: CobaltPipelineItem[];
 
-    if (format.engine === "pandoc") {
+    if (format.engine === "xod") {
+        // xod is an encrypted xps: decrypt it with the password the user
+        // entered in the prompt, output the plain xps
+        pipeline = [{
+            worker: "xod",
+            workerId: uuid(),
+            parentId,
+            workerArgs: {
+                files: [file],
+                password: password || "",
+                output,
+            },
+        }];
+    } else if (format.engine === "pandoc") {
         pipeline = [{
             worker: "pandoc",
             workerId: uuid(),

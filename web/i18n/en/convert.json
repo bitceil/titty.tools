@@ -12,5 +12,10 @@
     "picker.title": "choose an output format",
     "picker.formats": "output formats",
     "picker.no_formats": "no output formats available for these files",
-    "picker.reset": "choose different files"
+    "picker.reset": "choose different files",
+
+    "xod.password_title": "this file is encrypted",
+    "xod.password_body": "enter the password it was encrypted with to convert it to xps.",
+    "xod.password_placeholder": "password",
+    "xod.password_submit": "decrypt"
 }

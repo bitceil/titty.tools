@@ -47,6 +47,14 @@ type CobaltMagickWorkerArgs = {
 
 type CobaltPandocWorkerArgs = CobaltMagickWorkerArgs;
 
+type CobaltXodWorkerArgs = {
+    files: File[],
+    // password for the encrypted xod parts (asked for when the format
+    // button is clicked, stored here so the worker can derive the keys)
+    password: string,
+    output: FileInfo,
+}
+
 type CobaltMagickPipelineItem = CobaltPipelineItemBase & {
     worker: "magick",
     workerArgs: CobaltMagickWorkerArgs,
@@ -57,8 +65,14 @@ type CobaltPandocPipelineItem = CobaltPipelineItemBase & {
     workerArgs: CobaltPandocWorkerArgs,
 }
 
+type CobaltXodPipelineItem = CobaltPipelineItemBase & {
+    worker: "xod",
+    workerArgs: CobaltXodWorkerArgs,
+}
+
 export type CobaltPipelineItem = CobaltEncodePipelineItem
                                | CobaltRemuxPipelineItem
                                | CobaltFetchPipelineItem
                                | CobaltMagickPipelineItem
-                               | CobaltPandocPipelineItem;
+                               | CobaltPandocPipelineItem
+                               | CobaltXodPipelineItem;

@@ -30,6 +30,12 @@ type SmallDialog = Dialog & {
     title?: string,
     bodyText?: string,
     bodySubText?: string,
+    // optional text input (e.g. the xod password prompt); the value is
+    // stored in $lib/state/dialog-input so buttons can read it
+    input?: {
+        placeholder?: string,
+        type?: string,
+    },
     buttons?: DialogButton[],
     leftAligned?: boolean,
 };

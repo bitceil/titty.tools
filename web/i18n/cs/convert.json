@@ -12,5 +12,10 @@
     "picker.title": "vyberte výstupní formát",
     "picker.formats": "výstupní formáty",
     "picker.no_formats": "pro tyto soubory nejsou dostupné žádné výstupní formáty",
-    "picker.reset": "vybrat jiné soubory"
+    "picker.reset": "vybrat jiné soubory",
+
+    "xod.password_title": "tento soubor je šifrovaný",
+    "xod.password_body": "zadejte heslo, kterým byl zašifrován, pro převod do xps.",
+    "xod.password_placeholder": "heslo",
+    "xod.password_submit": "dešifrovat"
 }

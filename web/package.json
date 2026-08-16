@@ -58,6 +58,7 @@
     "dependencies": {
         "@bjorn3/browser_wasi_shim": "^0.4.2",
         "@imagemagick/magick-wasm": "0.0.42",
-        "client-zip": "^2.5.0"
+        "client-zip": "^2.5.0",
+        "fflate": "^0.8.3"
     }
 }

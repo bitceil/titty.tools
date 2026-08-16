@@ -11,9 +11,13 @@
 //            (inkscape for svg, ghostscript for pdf/eps) are unsupported.
 // - pandoc:  pandoc.wasm (haskell compiled to wasi); document formats.
 //            rtf output is not supported by that build.
+// - xod:     pdftron/apryse webviewer's proprietary encrypted document
+//            format. xod is an xps zip with every part aes-cbc encrypted;
+//            the key is derived from the user-provided password and the
+//            part name. output is a decrypted xps file.
 
 export type ConvertCategory = "video" | "audio" | "image" | "document";
-export type ConvertEngine = "ffmpeg" | "magick" | "pandoc";
+export type ConvertEngine = "ffmpeg" | "magick" | "pandoc" | "xod";
 
 export type ConvertFormat = {
     ext: string,
@@ -330,6 +334,15 @@ const magickCoreImageFormats: ConvertFormat[] = [
 ];
 
 // document formats handled by pandoc wasm (rtf output is unsupported)
+const xodDocumentFormats: ConvertFormat[] = [
+    {
+        ext: "xps",
+        mime: "application/oxps",
+        category: "document",
+        engine: "xod",
+    },
+];
+
 const pandocDocumentFormats: ConvertFormat[] = [
     {
         ext: "md",
@@ -390,6 +403,7 @@ export const convertFormats: ConvertFormat[] = [
     ...ffmpegImageFormats,
     ...magickImageFormats,
     ...magickCoreImageFormats,
+    ...xodDocumentFormats,
     ...pandocDocumentFormats,
 ];
 
@@ -434,7 +448,7 @@ const extCategories: Record<string, ConvertCategory> = {
     md: "document", markdown: "document", docx: "document", doc: "document",
     html: "document", json: "document",
     rst: "document", epub: "document", odt: "document", docbook: "document",
-    rtf: "document",
+    rtf: "document", xod: "document",
 };
 
 // figure out what a file is, using the mime type when available and
@@ -485,10 +499,19 @@ export const getFormatsForInput = (file: File): ConvertFormat[] => {
                 f.engine === "ffmpeg" && f.category === "audio"
             );
 
-        case "document":
+        case "document": {
+            const ext = file.name.split(".").pop()?.toLowerCase();
+
+            // xod is an encrypted xps, so the only output is a decrypted
+            // xps (the password is asked for when the button is clicked)
+            if (ext === "xod") {
+                return convertFormats.filter(f => f.engine === "xod");
+            }
+
             return convertFormats.filter(f =>
                 f.engine === "pandoc" && f.category === "document"
             );
+        }
 
         case "image": {
             const ffmpegReadable = isFFmpegReadableImage(file);

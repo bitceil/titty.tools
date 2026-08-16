@@ -1,7 +1,10 @@
 <script lang="ts">
+    import { get } from "svelte/store";
     import { t } from "$lib/i18n/translations";
     import { createConvertPipeline } from "$lib/task-manager/queue";
     import { queueVisible } from "$lib/state/queue-visibility";
+    import { createDialog } from "$lib/state/dialogs";
+    import { dialogInputValue } from "$lib/state/dialog-input";
     import { getSharedFormats, convertFormats, type ConvertFormat } from "$lib/convert/formats";
 
     import DropReceiver from "$components/misc/DropReceiver.svelte";
@@ -43,6 +46,46 @@
 
     const convert = async (format: ConvertFormat) => {
         if (!files) return;
+
+        // xod files are password-encrypted, so ask for the password
+        // before starting the conversion
+        if (format.engine === "xod") {
+            const currentFiles = Array.from(files);
+
+            dialogInputValue.set("");
+            createDialog({
+                id: "xod-password",
+                type: "small",
+                title: $t("convert.xod.password_title"),
+                bodyText: $t("convert.xod.password_body"),
+                input: {
+                    placeholder: $t("convert.xod.password_placeholder"),
+                    type: "password",
+                },
+                buttons: [
+                    {
+                        text: $t("button.cancel"),
+                        main: false,
+                        action: () => {},
+                    },
+                    {
+                        text: $t("convert.xod.password_submit"),
+                        main: true,
+                        action: () => {
+                            const password = get(dialogInputValue);
+
+                            for (const file of currentFiles) {
+                                createConvertPipeline(file, format, password);
+                            }
+
+                            files = undefined;
+                            formats = [];
+                        },
+                    },
+                ],
+            });
+            return;
+        }
 
         for (const file of Array.from(files)) {
             createConvertPipeline(file, format);
@@ -143,6 +186,8 @@
                         "odt",
                         "docbook",
                         "rtf",
+                        // encrypted documents (pdftron xod)
+                        "xod",
                     ]}
                 />
             </div>
